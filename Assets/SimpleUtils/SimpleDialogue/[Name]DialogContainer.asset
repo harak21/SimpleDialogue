@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3715e677bcda49c29ec1b6e8f88c98cd, type: 3}
+  m_Name: '[Name]DialogContainer'
+  m_EditorClassIdentifier: 
+  firstNode:
+    id: 0
+    conditionID: 0
+    referenceValue: 0
+    nextNodes: 
+    condition: 0
+  dialogueNodes:
+    keys: 
+    values: []
+  conditionNodes:
+    keys: a391fc2ef3c6e9ab
+    values:
+    - id: 788304291
+      conditionID: 5596
+      referenceValue: 0
+      nextNodes: f3c6e9ab
+      condition: 0
+    - id: -1410742541
+      conditionID: 906406053
+      referenceValue: 42
+      nextNodes: 
+      condition: 1
+  actors:
+    keys: 
+    values: []
+  conditionValues:
+    keys: b018fb66a5a806368b5b863a
+    values:
+    - <ID>k__BackingField: 1727731888
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 42
+    - <ID>k__BackingField: 906406053
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 42
+    - <ID>k__BackingField: 981883787
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 0
+  nodeData:
+  - nodeID: 788304291
+    position: {x: 151, y: 122}
+  - nodeID: -1410742541
+    position: {x: 494, y: 122}
+  actorsData: []

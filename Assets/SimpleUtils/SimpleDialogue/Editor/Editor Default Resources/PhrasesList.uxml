@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:ListView focusable="true" name="phrasesList" class="phrasesList" />
+</ui:UXML>

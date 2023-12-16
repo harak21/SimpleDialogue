@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" MemoryProfiler="Unity.MemoryProfiler.Editor" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/SimpleUtils/SimpleDialogue/Editor/Editor%20Default%20Resources/GraphViewStyle.uss?fileID=7433441132597879392&amp;guid=72873c16cd3752e44886f809c0c4f560&amp;type=3#GraphViewStyle" />
+    <ui:VisualElement class="phrasesList__item sapphire-blue-background" style="flex-direction: row; background-color: rgb(27, 32, 44);">
+        <ui:TextField picking-mode="Ignore" name="description" multiline="true" style="flex-grow: 3; white-space: normal;" />
+        <uie:IntegerField name="value" value="42" style="flex-grow: 1; flex-shrink: 0; min-width: 50px; max-width: 50px;" />
+    </ui:VisualElement>
+</ui:UXML>

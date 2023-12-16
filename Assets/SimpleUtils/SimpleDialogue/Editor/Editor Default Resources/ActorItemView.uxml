@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" MemoryProfiler="Unity.MemoryProfiler.Editor" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/SimpleUtils/SimpleDialogue/Editor/Editor%20Default%20Resources/GraphViewStyle.uss?fileID=7433441132597879392&amp;guid=72873c16cd3752e44886f809c0c4f560&amp;type=3#GraphViewStyle" />
+    <ui:VisualElement name="actorItem" class="actorItem" style="flex-direction: row; justify-content: space-between;">
+        <ui:TextField picking-mode="Ignore" />
+        <uie:MaskField choices="System.Collections.Generic.List`1[System.String]" />
+    </ui:VisualElement>
+</ui:UXML>

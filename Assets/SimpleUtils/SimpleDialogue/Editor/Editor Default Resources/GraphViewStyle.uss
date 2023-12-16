@@ -1,0 +1,290 @@
+:root {
+    --sapphireblue-color: rgb(27, 32, 44);
+    --blackishblue-color: rgb(21, 26, 36);
+    --selection-color: chartreuse;
+    --utility-color: rgb(44, 55, 71);
+    background-color: rgb(21, 26, 36);
+}
+
+GridBackground {
+    --grid-background-color: rgb(32, 43, 60);
+    --line-color: rgb(37, 48, 63);
+    --thick-line-color: rgb(46, 60, 78);
+    --spacing: 25;
+}
+
+.node--selected {
+    border-color: var(--selection-color);
+    border-width: 1px;
+}
+
+.roundedContainer {
+    border-radius: 5px;
+}
+
+.roundedContainer--onlyBottom {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.floatedMenu {
+    border-radius: 15px;
+    padding: 20px;
+    position: absolute;
+    right: 25px;
+    bottom: 100px;
+    top: 100px;
+    width: 300px;
+    background-color: var(--blackishblue-color);
+}
+
+.conditionInputField {
+}
+
+.unity-base-text-field__input {
+    -unity-text-align: middle-center;
+    background-color: var(--utility-color);
+}
+
+.label-font20 {
+    font-size: 20px;
+    -unity-text-align: upper-center;
+}
+
+.menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 75px;
+    background-color: var(--blackishblue-color);
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.actorsMenu {
+    position: absolute;
+    left: 150px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 500px;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    height: auto;
+    overflow: hidden;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out-back;
+}
+
+.actorsMenu > .actorsViewContainer {
+    padding: 20px;
+    background-color: var(--blackishblue-color);
+    border-radius: 15px;
+    max-height: 100%;
+}
+
+.actorsMenu--hidden {
+    left: -500px;
+}
+
+.actorsList__itemContainer > .actorItem {
+    padding: 3px;
+    padding-top: 5px;
+    -unity-text-align: middle-left;
+    justify-content: center;
+    white-space: normal;
+    width: auto;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.actorsList__itemContainer > .actorItem > .unity-text-field {
+    background-color: var(--utility-color);
+    width: 45%;
+}
+
+.unity-mask-field {
+    background-color: var(--utility-color);
+    width: 45%;
+}
+
+.unity-mask-field > .unity-base-field__input {
+    background-color: var(--utility-color);
+    border-top-color: black;
+    border-bottom-color: var(--utility-color);
+    border-left-color: var(--utility-color);
+    border-right-color: var(--utility-color);
+}
+
+.unity-enum-field {
+    background-color: var(--blackishblue-color);
+    border-color: var(--blackishblue-color);
+    width: 80%;
+}
+
+.unity-enum-field > .unity-base-field__input {
+    background-color: var(--blackishblue-color);
+    border-top-color: var(--utility-color);
+    border-bottom-color: rgb(17, 17, 17);
+    border-left-color: rgb(26, 26, 26);
+    border-right-color: rgb(26, 26, 26);
+    padding-left: 0;
+}
+
+.actorsList__itemContainer > .actorItem > .unity-text-field > .unity-text-field__input {
+    background-color: var(--utility-color);
+}
+
+.actorsList__itemContainer > .actorItem:hover {
+    background-color: var(--blackishblue-color);
+}
+
+#header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    padding-bottom: 7px;
+}
+
+#actorAddButton {
+    -unity-text-align: middle-center;
+    width: 25px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: var(--utility-color);
+}
+
+#actorAddButton:hover {
+    border-color: var(--selection-color);
+}
+
+.menu__button {
+    margin: 5px;
+    padding: 10px;
+    background-color: var(--blackishblue-color);
+    height: 65px;
+    border-width: 0;
+    border-radius: 5px;
+}
+
+.menu__button__instance {
+    position: absolute;
+    bottom: 25px;
+    width: 75px;
+    height: 75px;
+    margin: 0;
+}
+
+.menu__button__sprite {
+    flex-grow: 1;
+}
+
+.menu__button--selected {
+    background-color: var(--sapphireblue-color);
+    border-color: var(--utility-color);
+    border-width: 1px;
+}
+
+.menu__button:hover {
+    border-width: 1px;
+    border-color: var(--selection-color);
+}
+
+.phrasesList {
+    flex-grow: 1;
+    height: auto;
+    max-height: none;
+    min-height: auto;
+}
+
+.phrasesList--hidden {
+    visibility: hidden;
+    max-height: 0;
+}
+
+.hidden {
+    visibility: hidden;
+    max-height: 0;
+}
+
+.phrasesList__item {
+    padding: 3px;
+    -unity-text-align: middle-left;
+    justify-content: center;
+    white-space: normal;
+    width: auto;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.phrasesList__item {
+    padding: 3px;
+    -unity-text-align: middle-left;
+    justify-content: center;
+    white-space: normal;
+    width: auto;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.sapphire-blue-background {
+    background-color: var(--sapphireblue-color);
+}
+
+.unity-collection-view__item--selected {
+    background-color: var(--sapphireblue-color);
+}
+
+.unity-collection-view__item--selected > .phrasesList__item {
+    background-color: var(--sapphireblue-color);
+    border-color: var(--utility-color);
+}
+
+.phrasesList__item:hover {
+    background-color: var(--blackishblue-color);
+    border-color: var(--selection-color);
+}
+
+.phrasesList__item > .unity-label {
+    text-overflow: ellipsis;
+    -unity-text-overflow-position: middle;
+    overflow: hidden;
+}
+
+.unity-base-slider__dragger {
+    background-color: var(--utility-color);
+}
+
+.unity-enum-field__text{
+    padding-left: 3px;
+}
+
+.unity-repeat-button {
+    background-color: var(--utility-color);
+}
+
+#footer > .unity-text-field {
+    align-content: center;
+    white-space: normal;
+    margin: 3px;
+    background-color: var(--blackishblue-color);
+}
+
+#footer > .unity-text-field > .unity-base-text-field__input {
+    background-color: var(--blackishblue-color);
+    border-width: 1px;
+    border-bottom-color: var(--utility-color);
+    border-left-color: var(--utility-color);
+    border-right-color: var(--utility-color);
+    -unity-text-align: middle-center;
+}

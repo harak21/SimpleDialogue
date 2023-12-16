@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/SimpleDialogue/Editor/Editor%20Default%20Resources/GraphViewStyle.uss?fileID=7433441132597879392&amp;guid=72873c16cd3752e44886f809c0c4f560&amp;type=3#GraphViewStyle" />
+    <ui:VisualElement style="width: 200px; min-width: 200px; align-items: center; max-width: 200px;">
+        <ui:VisualElement style="height: auto; width: auto; background-color: rgb(27, 32, 44); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+            <ui:VisualElement name="main" style="height: auto; width: 200px; flex-direction: column; flex-grow: 1; justify-content: center; background-color: rgb(27, 32, 44); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                <ui:VisualElement name="ports" style="width: auto; height: auto; flex-direction: row; flex-grow: 1; min-height: auto; position: absolute; left: -20px; top: 50%; right: -20px;">
+                    <ui:VisualElement name="input" style="align-items: flex-start; flex-grow: 1; justify-content: center; height: auto;" />
+                    <ui:VisualElement name="output" style="align-items: auto; flex-grow: 1; justify-content: center; height: auto;" />
+                </ui:VisualElement>
+                <ui:TextField picking-mode="Ignore" value="filler text" text="Description" multiline="true" name="description" focusable="true" tabindex="-1" is-delayed="true" class="conditionInputField" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px; flex-grow: 0; white-space: normal; -unity-text-align: middle-center;" />
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; padding-right: 0; padding-left: 0; padding-top: 3px; padding-bottom: 3px; flex-grow: 1;">
+                    <uie:EnumField value="SimpleUtils.SimpleDialogue.DialogueNodes.DialogCondition" name="conditionType" style="flex-grow: 1; width: 50%; flex-shrink: 1;" />
+                    <uie:IntegerField value="42" focusable="true" tabindex="-1" is-delayed="true" name="referenceValue" style="margin-left: 1px; margin-right: 1px; margin-top: 1px; margin-bottom: 1px; padding-right: 2px; flex-grow: 1; -unity-text-align: upper-center; width: 50%; flex-shrink: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="footer" style="padding-top: 5px; padding-bottom: 5px; align-items: stretch; border-top-left-radius: 0; border-bottom-left-radius: 5px; border-top-right-radius: 0; border-bottom-right-radius: 5px; flex-grow: 1; justify-content: center; flex-direction: row; background-color: rgb(21, 26, 36);">
+                <ui:Label text="CONDITION" display-tooltip-when-elided="true" style="padding-left: 0; padding-right: 0; padding-top: 1px; padding-bottom: 2px; font-size: 8px; color: rgb(235, 136, 54);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
