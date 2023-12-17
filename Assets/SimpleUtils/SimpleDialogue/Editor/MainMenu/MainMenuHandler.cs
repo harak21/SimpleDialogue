@@ -9,6 +9,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
     {
         private readonly TemplateContainer _root;
         private readonly List<IMainMenuTabView> _tabViews = new();
+        private GlobalValuesTab _globalValuesTab;
 
         public MainMenuHandler(TemplateContainer root)
         {
@@ -28,11 +29,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
         private void CreateGlobalValuesTab()
         {
             var globalValues = AssetProvider.FindSingleAsset<GlobalValues>();
-            var globalValuesTab = new GlobalValuesTab(globalValues);
+            _globalValuesTab = new GlobalValuesTab(globalValues);
             var tabButton = _root.Q<Button>("globalValues");
-            globalValuesTab.OnViewSelected += TabSelected;
-            _root.Q<VisualElement>("content").Add(globalValuesTab.GetContentTree(tabButton));
-            _tabViews.Add(globalValuesTab);
+            _globalValuesTab.OnViewSelected += TabSelected;
+            _root.Q<VisualElement>("content").Add(_globalValuesTab.GetContentTree(tabButton));
+            _tabViews.Add(_globalValuesTab);
         }
 
         private void CreateDialogsTab()
@@ -48,6 +49,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
         {
             var settingsTab = new SettingsTab();
             settingsTab.OnViewSelected += TabSelected;
+            settingsTab.OnGlobalValuesChanged += () => _globalValuesTab.Update();
             var tabButton = _root.Q<Button>("settings");
             _root.Q<VisualElement>("content").Add(settingsTab.GetContentTree(tabButton));
             _tabViews.Add(settingsTab);

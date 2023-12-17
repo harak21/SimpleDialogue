@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: GlobalConditionsContainer
   m_EditorClassIdentifier: 
   conditionNodes:
-    keys: ba060000dc150000
+    keys: 82030000201d0000
     values:
-    - <ID>k__BackingField: 1722
-      <Description>k__BackingField: test 1722
+    - <ID>k__BackingField: 898
+      <Description>k__BackingField: test 898
       <Value>k__BackingField: 1
-    - <ID>k__BackingField: 5596
-      <Description>k__BackingField: test 5596
+    - <ID>k__BackingField: 7456
+      <Description>k__BackingField: test 7456
       <Value>k__BackingField: 1

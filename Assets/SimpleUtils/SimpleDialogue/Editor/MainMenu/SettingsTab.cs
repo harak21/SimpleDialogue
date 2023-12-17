@@ -12,10 +12,12 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
     public class SettingsTab : IMainMenuTabView
     {
         public event Action<IMainMenuTabView> OnViewSelected;
+        public event Action OnGlobalValuesChanged; 
+        
         private TemplateContainer _root;
         private IGlobalValuesSaveLoadProvider _saveLoadProvider;
-        private GlobalValues _globalValues;
-        private SimpleDialogueSettings _settings;
+        private readonly GlobalValues _globalValues;
+        private readonly SimpleDialogueSettings _settings;
 
         public SettingsTab()
         {
@@ -42,8 +44,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             
             var loaderTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => typeof(IGlobalValuesSaveLoadProvider)
-                    .IsAssignableFrom(type) && type != typeof(IGlobalValuesSaveLoadProvider)).ToList();
+                .Where(type => type != typeof(IGlobalValuesSaveLoadProvider) 
+                               && typeof(IGlobalValuesSaveLoadProvider).IsAssignableFrom(type)).ToList();
 
 
             var treeAsset = AssetProvider.LoadAssetAtAssetName<VisualTreeAsset>("SettingsTab");
@@ -70,8 +72,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             }
 
             ConstructButtons(tabButton);
-            
-            
+            _root.StretchToParentSize();
             return _root;
         }
 
@@ -89,6 +90,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
                 {
                     _globalValues.ConditionNodes.Add(conditionValue);
                 }
+                OnGlobalValuesChanged?.Invoke();
             };
             tabButton.clicked += () => OnViewSelected?.Invoke(this); 
         }

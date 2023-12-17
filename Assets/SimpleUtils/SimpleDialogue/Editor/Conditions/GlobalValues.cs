@@ -1,7 +1,6 @@
-using System.IO;
-using Newtonsoft.Json;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.Utils;
+using UnityEditor;
 using UnityEngine;
 
 namespace SimpleUtils.SimpleDialogue.Editor.Conditions
@@ -13,15 +12,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.Conditions
 
         public SimpleSerializedDictionary<ConditionValue> ConditionNodes => conditionNodes;
 
-        [ContextMenu("Save as JSON")]
-        private void SaveCondition()
+        public void AddNewConditionValue(ConditionValue conditionValue)
         {
-            var dataPath = Path.Combine(Application.dataPath, "SimpleUtils", "SimpleDialogue", "Resources",
-                "GlobalConditions.json");
-            using StreamWriter sw = new StreamWriter(dataPath, false);
-            var json = JsonConvert.SerializeObject(conditionNodes.GetValues(), Formatting.Indented);
-            sw.Write(json);
-            sw.Close();
+            Undo.RecordObject(this, "adding new condition values");
+            conditionNodes.Add(conditionValue);
+            EditorUtility.SetDirty(this);
         }
     }
 }

@@ -44,7 +44,7 @@ MonoBehaviour:
       <Description>k__BackingField: Condition description
       <Value>k__BackingField: 42
     - <ID>k__BackingField: 906406053
-      <Description>k__BackingField: Condition description
+      <Description>k__BackingField: gfsfd
       <Value>k__BackingField: 42
     - <ID>k__BackingField: 981883787
       <Description>k__BackingField: Condition description
@@ -53,5 +53,5 @@ MonoBehaviour:
   - nodeID: 788304291
     position: {x: 151, y: 122}
   - nodeID: -1410742541
-    position: {x: 494, y: 122}
+    position: {x: 509, y: 109}
   actorsData: []
