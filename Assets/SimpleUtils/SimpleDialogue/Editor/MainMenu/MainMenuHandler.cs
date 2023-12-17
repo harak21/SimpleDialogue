@@ -15,6 +15,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             _root = root;
             CreateGlobalValuesTab();
             CreateDialogsTab();
+            CreateSettingsTab();
 
             foreach (var tabView in _tabViews)
             {
@@ -41,6 +42,15 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             var tabButton = _root.Q<Button>("dialogs");
             _root.Q<VisualElement>("content").Add(dialogsTab.GetContentTree(tabButton));
             _tabViews.Add(dialogsTab);
+        }
+
+        private void CreateSettingsTab()
+        {
+            var settingsTab = new SettingsTab();
+            settingsTab.OnViewSelected += TabSelected;
+            var tabButton = _root.Q<Button>("settings");
+            _root.Q<VisualElement>("content").Add(settingsTab.GetContentTree(tabButton));
+            _tabViews.Add(settingsTab);
         }
 
         private void TabSelected(IMainMenuTabView tabView)
