@@ -2,8 +2,8 @@
     <Style src="project://database/Assets/SimpleUtils/SimpleDialogue/Editor/Editor%20Default%20Resources/GraphViewStyle.uss?fileID=7433441132597879392&amp;guid=72873c16cd3752e44886f809c0c4f560&amp;type=3#GraphViewStyle" />
     <ui:VisualElement name="root" style="flex-direction: row; flex-grow: 1; background-color: rgb(27, 32, 44);">
         <ui:VisualElement name="leftMenu" style="background-color: rgb(21, 26, 36); width: 75px; min-width: 75px; max-width: 75px; border-top-width: 25px; border-bottom-width: 25px;">
-            <ui:Button text="GLOBAL VALUES" display-tooltip-when-elided="true" name="globalValues" class="menu__button" style="white-space: normal; font-size: 10px;" />
-            <ui:Button text="DIALOGS" display-tooltip-when-elided="true" name="dialogs" class="menu__button" style="white-space: normal; font-size: 10px;" />
+            <ui:Button text="GLOBAL VALUES" display-tooltip-when-elided="true" name="globalValues" class="menu__button" style="white-space: normal; font-size: 9px;" />
+            <ui:Button text="DIALOGS" display-tooltip-when-elided="true" name="dialogs" class="menu__button" style="white-space: normal; font-size: 9px;" />
             <ui:Button display-tooltip-when-elided="true" name="settings" class="menu__button menu__button__instance" style="white-space: normal; font-size: 10px; background-image: url(&apos;project://database/Assets/SimpleUtils/SimpleDialogue/Textures/settings2.png?fileID=2800000&amp;guid=fee290f979230474893550d04d0e778d&amp;type=3#settings2&apos;);" />
         </ui:VisualElement>
         <ui:VisualElement name="content" style="flex-grow: 1; background-color: rgb(27, 32, 44); border-top-width: 0; border-bottom-width: 0;" />

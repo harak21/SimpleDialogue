@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
@@ -23,6 +24,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
         {
             _globalValues = globalValues;
             _itemTemplate = AssetProvider.LoadAssetAtAssetName<VisualTreeAsset>("GlobalValueListItemView");
+            
+            Undo.undoRedoPerformed += UndoRedoPerformed;
+        }
+
+        private void UndoRedoPerformed()
+        {
+            Update();
         }
 
         public VisualElement GetContentTree(Button tabButton)
@@ -40,7 +48,19 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             _listView.reorderable = false;
 
             tabButton.clicked += () => OnViewSelected?.Invoke(this);
+
+            _root.Q<Button>("add").clicked += () =>
+            {
+                _globalValues.AddNewConditionValue(new ConditionValue()
+                {
+                    Description = "new description",
+                    ID = Guid.NewGuid().GetHashCode(),
+                    Value = 42
+                });
+                Update();
+            };
             
+            _root.StretchToParentSize();
             return _root;
         }
 
@@ -58,6 +78,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
 
         public void Update()
         {
+            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionNodes.GetValues();
             _listView.RefreshItems();
         }
 
