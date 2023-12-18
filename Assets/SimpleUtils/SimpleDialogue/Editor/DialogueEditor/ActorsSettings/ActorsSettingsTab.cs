@@ -53,11 +53,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
 
         public void Update()
         {
+            _actorList.itemsSource = _dialogueContainer.ActorsList;
+            _actorList.RefreshItems();
         }
         
         public void  LoadActorsData()
         {
-            foreach (var actor in _dialogueContainer.Actors.GetValues())
+            foreach (var actor in _dialogueContainer.ActorsList)
             {
                 var actorData = _dialogueContainer.ActorsData.Find(d => d.actorID == actor.ID);
                 OnNewActorViewCreate?.Invoke(actor, actorData);
@@ -79,7 +81,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
                 };
                 dialogueContainer.ActorsData.Add(actorData);
                 OnNewActorViewCreate?.Invoke(newActor, actorData);
-                _actorList.itemsSource = dialogueContainer.Actors.GetValues();
+                _actorList.itemsSource = dialogueContainer.ActorsList;
                 _actorList.RefreshItems();
             };
         }
@@ -105,7 +107,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             _actorList = _actorsMenu.Q<ListView>("actorsList");
             _actorList.makeItem = MakeItem;
             _actorList.bindItem = BindItem;
-            _actorList.itemsSource = dialogueContainer.Actors.GetValues();
+            _actorList.itemsSource = dialogueContainer.ActorsList;
             _actorList.selectionType = SelectionType.None;
             _actorList.reorderable = false;
         }

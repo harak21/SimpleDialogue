@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
@@ -24,6 +26,17 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             }
             
             _tabViews[0].Show();
+            
+            
+            Undo.undoRedoPerformed += UndoRedoPerformed;
+        }
+
+        private void UndoRedoPerformed()
+        {
+            foreach (var tabView in _tabViews)
+            {
+                tabView.Update();
+            }
         }
 
         private void CreateGlobalValuesTab()

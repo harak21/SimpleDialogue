@@ -19,39 +19,68 @@ MonoBehaviour:
     nextNodes: 
     condition: 0
   dialogueNodes:
-    keys: 
-    values: []
-  conditionNodes:
-    keys: a391fc2ef3c6e9ab
+    keys: 2ff2b0e1e2b4d502470f02f7
     values:
-    - id: 788304291
-      conditionID: 5596
-      referenceValue: 0
-      nextNodes: f3c6e9ab
-      condition: 0
-    - id: -1410742541
-      conditionID: 906406053
-      referenceValue: 42
+    - id: -508497361
+      nextNodes: e2b4d502470f02f7
+      tableName: PlayerPhrases
+      entryKey: 47584919552
+      actor:
+        id: -1389120166
+        actorName: NewActorName
+    - id: 47559906
+      nextNodes: 1b058c2adf0d63b1
+      tableName: PlayerPhrases
+      entryKey: 47584919552
+      actor:
+        id: -1389120166
+        actorName: NewActorName
+    - id: -150859961
       nextNodes: 
-      condition: 1
-  actors:
-    keys: 
-    values: []
-  conditionValues:
-    keys: b018fb66a5a806368b5b863a
+      tableName: PlayerPhrases
+      entryKey: 31789170688
+      actor:
+        id: -1389120166
+        actorName: NewActorName
+  conditionNodes:
+    keys: 1b058c2adf0d63b1
     values:
-    - <ID>k__BackingField: 1727731888
-      <Description>k__BackingField: Condition description
-      <Value>k__BackingField: 42
-    - <ID>k__BackingField: 906406053
-      <Description>k__BackingField: gfsfd
-      <Value>k__BackingField: 42
-    - <ID>k__BackingField: 981883787
+    - id: 713819419
+      conditionID: -714686472
+      referenceValue: 0
+      nextNodes: 
+      condition: 0
+    - id: -1318908449
+      conditionID: -7869433
+      referenceValue: 0
+      nextNodes: 
+      condition: 0
+  actors:
+    keys: 5ab533ad
+    values:
+    - id: -1389120166
+      actorName: Player
+  conditionValues:
+    keys: f8bf66d507ec87ff
+    values:
+    - <ID>k__BackingField: -714686472
+      <Description>k__BackingField: asdasd
+      <Value>k__BackingField: 0
+    - <ID>k__BackingField: -7869433
       <Description>k__BackingField: Condition description
       <Value>k__BackingField: 0
   nodeData:
-  - nodeID: 788304291
-    position: {x: 151, y: 122}
-  - nodeID: -1410742541
-    position: {x: 509, y: 109}
-  actorsData: []
+  - nodeID: -508497361
+    position: {x: 232, y: 201}
+  - nodeID: 47559906
+    position: {x: 578, y: 304}
+  - nodeID: -150859961
+    position: {x: 578, y: 124}
+  - nodeID: 713819419
+    position: {x: 872, y: 359}
+  - nodeID: -1318908449
+    position: {x: 880, y: 198}
+  actorsData:
+  - actorID: -1389120166
+    tables:
+    - {fileID: 11400000, guid: 7d6248f52f7662d4e8ee6490ab2c4101, type: 2}

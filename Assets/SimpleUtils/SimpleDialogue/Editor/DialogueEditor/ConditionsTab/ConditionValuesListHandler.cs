@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
+using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,16 +14,17 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         
         private readonly VisualTreeAsset _itemViewTemplate;
         private readonly ListView _listView;
-        private readonly List<ConditionValue> _conditionNodes;
+        private readonly IConditionValuesProvider _conditionValuesProvider;
         private string _dataKey;
+        private List<ConditionValue> _conditionValues;
 
         public ConditionValuesListHandler(VisualTreeAsset itemViewTemplate, ListView listView,
-            List<ConditionValue> conditionNodes, string dataKey)
+            IConditionValuesProvider conditionValuesProvider, string dataKey)
         {
             _listView = listView;
+            _conditionValuesProvider = conditionValuesProvider;
             _itemViewTemplate = itemViewTemplate;
             listView.viewDataKey = dataKey;
-            _conditionNodes = conditionNodes;
             LoadData();
         }
         
@@ -38,6 +40,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
 
         public void UpdateList()
         {
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
             _listView.RefreshItems();
         }
 
@@ -45,7 +48,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         {
             _listView.makeItem = MakeItem;
             _listView.bindItem = BindItem;
-            _listView.itemsSource = _conditionNodes;
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
             _listView.selectionType = SelectionType.Single;
             _listView.reorderable = false;
         }
@@ -59,14 +62,14 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
 
         private void BindItem(VisualElement e, int i)
         {
-            ((DraggableListItem)e).Bind(_conditionNodes[i].ID,
+            ((DraggableListItem)e).Bind(_conditionValues[i].ID,
                 string.Empty,
-                _conditionNodes[i].Description);
+                _conditionValues[i].Description);
         }
         
         private void NodeCreate(long longKey, string stringKey, Vector2 position)
         {
-            var condition = _conditionNodes.Find(n => n.ID == longKey);
+            var condition = _conditionValues.Find(n => n.ID == longKey);
             if (condition is null)
                 throw new ArgumentException();
             OnNodeCreate?.Invoke(condition, position);

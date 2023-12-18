@@ -13,11 +13,9 @@ using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Localization;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
-using Button = UnityEngine.UIElements.Button;
 
 namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
 {
@@ -26,6 +24,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         private readonly DialogueEditorWindow _currentWindow;
         private readonly TemplateContainer _rootView;
         private readonly DialogueContainer _dialogueContainer;
+        private readonly GlobalValues _globalConditionValues;
 
         private DialogueGraph _graph;
         private PhrasesListHandler _npcListHandler;
@@ -35,7 +34,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         private ITabView _currentTabView;
 
         private bool _isActorMenuShowed;
-        private GlobalValues _globalConditionValues;
+        private ActorsSettingsTab _actorsSettingsTab;
+        private ConditionValuesTabView _localConditionValuesView;
 
         public DialogueEditorHandler(DialogueEditorWindow currentWindow, TemplateContainer rootView,
             DialogueContainer dialogueContainer)
@@ -53,12 +53,40 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             {
                 _currentTabView = _tabViews.Last();
                 NextTabView();
-                //_tabViews.First().Show();
             }
 
             CreateGraph();
             LoadData();
             AddShortcuts();
+            
+            Undo.undoRedoPerformed += UndoRedoPerformed;
+        }
+
+        private void UndoRedoPerformed()
+        {
+            for (var i = 0; i < _tabViews.Count; i++)
+            {
+                var tabView = _tabViews[i];
+                if (tabView is ActorPhrasesTabView actorPhrasesTabView)
+                {
+                    if (actorPhrasesTabView.IsShowed)
+                    {
+                        NextTabView();
+                    }
+                    actorPhrasesTabView.Dispose();
+                    _tabViews.Remove(tabView);
+                    i--;
+                }
+                else
+                {
+                    tabView.Update();
+                }
+            }
+
+            _actorsSettingsTab.LoadActorsData();
+            _actorsSettingsTab.Update();
+            _graph.ClearGraph();
+            LoadData();
         }
 
         private void AddShortcuts()
@@ -92,7 +120,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         {
             var conditionView = new ConditionValuesTabView(_rootView,
                 "Global Conditions",
-                _globalConditionValues.ConditionNodes.GetValues());
+                _globalConditionValues);
             conditionView.OnViewSelected += ViewSelected;
             conditionView.OnNodeCreate += CreateConditionNode;
             _tabViews.Add(conditionView);
@@ -100,21 +128,21 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
 
         private void CreateLocalConditionsTab()
         {
-            var conditionView = new ConditionValuesTabView(_rootView,
+            _localConditionValuesView = new ConditionValuesTabView(_rootView,
                 $"{_currentWindow.name} Local Conditions",
-                _dialogueContainer.ConditionReferencesList);
-            conditionView.OnViewSelected += ViewSelected;
-            conditionView.OnNodeCreate += CreateConditionNode;
-            _tabViews.Add(conditionView);
+                _dialogueContainer);
+            _localConditionValuesView.OnViewSelected += ViewSelected;
+            _localConditionValuesView.OnNodeCreate += CreateConditionNode;
+            _tabViews.Add(_localConditionValuesView);
         }
 
         private void CreateActorsSettingsTab()
         {
-            var actorsSettingsTab = new ActorsSettingsTab(_rootView, _dialogueContainer, _currentWindow.name);
-            actorsSettingsTab.OnNewActorViewCreate += CreateActorView;
-            actorsSettingsTab.OnViewSelected += ViewSelected;
-            actorsSettingsTab.OnTabViewsChanged += UpdateTabs;
-            actorsSettingsTab.LoadActorsData();
+            _actorsSettingsTab = new ActorsSettingsTab(_rootView, _dialogueContainer, _currentWindow.name);
+            _actorsSettingsTab.OnNewActorViewCreate += CreateActorView;
+            _actorsSettingsTab.OnViewSelected += ViewSelected;
+            _actorsSettingsTab.OnTabViewsChanged += UpdateTabs;
+            _actorsSettingsTab.LoadActorsData();
         }
 
         private void CreateActorView(Actor actor, ActorData actorData)
@@ -189,7 +217,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
 
                 if (!_dialogueContainer.ConditionValues.TryGetValue(conditionNode.ConditionID, out var conditionValue))
                 {
-                    if (!_globalConditionValues.ConditionNodes.TryGetValue(conditionNode.ConditionID, out conditionValue))
+                    if (!_globalConditionValues.ConditionValues.TryGetValue(conditionNode.ConditionID, out conditionValue))
                     {
                         Debug.LogError($"failed to find ConditionValue with id {conditionNode.ConditionID}");
                         continue;
@@ -241,17 +269,19 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
                     Description = "Condition description",
                     Value = 0
                 };
-                _dialogueContainer.ConditionValues.Add(localCondition);
+                _dialogueContainer.AddConditionValue(localCondition);
                 var node = new DialogueConditionNode(id, localCondition);
                 _dialogueContainer.AddNode(node);
                 _dialogueContainer.NodeData.Add(new DialogueNodeData() { nodeID = id, position = pos });
                 Save();
+                _localConditionValuesView.Update();
                 return (node, localCondition);
             };
         }
 
         public void Clear()
         {
+            Undo.undoRedoPerformed -= UndoRedoPerformed;
             Save();
         }
 

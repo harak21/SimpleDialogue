@@ -30,6 +30,20 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
             styleSheets.Add(styleSheet);
         }
 
+        public void ClearGraph()
+        {
+            foreach (var edge in edges)
+            {
+                RemoveElement(edge);
+            }
+
+            foreach (var node in _dialogGraphNodeViews)
+            {
+                RemoveElement(node);
+            }
+            _dialogGraphNodeViews.Clear();
+        }
+
         public void AddPhraseNode(string nodeTitle, Vector2 pos, DialoguePhraseNode phraseNode, Actor actor, bool isNew)
         {
             var nodeView = new PhraseNodeView(actor, phraseNode, nodeTitle);
@@ -79,9 +93,6 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
 
         private void EdgeDroppedOutsidePort(Edge edge, Vector2 pos)
         {
-            //TODO :the ability to create conditions by dragging a edge is currently disabled
-            //we need to add a view update
-            return;
             var localMousePosition = GetLocalMousePosition(pos);
             var valueTuple = OnNewConditionNodeCreate?.Invoke(localMousePosition);
             if (valueTuple is null)

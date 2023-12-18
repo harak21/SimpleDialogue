@@ -2,12 +2,13 @@
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
 using SimpleUtils.SimpleDialogue.Runtime.Utils;
+using UnityEditor;
 using UnityEngine;
 
 namespace SimpleUtils.SimpleDialogue.Runtime.Containers
 {
     [CreateAssetMenu(fileName = "[Name]DialogContainer", menuName = "SimpleFlow/DialogContainer")]
-    internal class DialogueContainer : ScriptableObject, IDialogueContainer
+    internal class DialogueContainer : ScriptableObject, IDialogueContainer, IConditionValuesProvider
     {
         [SerializeField] private DialogueConditionNode firstNode;
         [SerializeField] private SimpleSerializedDictionary<DialoguePhraseNode> dialogueNodes = new();
@@ -31,10 +32,12 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
         internal List<Actor> ActorsList => Actors.GetValues();
         internal List<DialoguePhraseNode> PhrasesList => dialogueNodes.GetValues();
         internal List<DialogueConditionNode> ConditionsList => conditionNodes.GetValues();
-        internal List<ConditionValue> ConditionReferencesList => conditionValues.GetValues();
+        internal List<ConditionValue> ConditionValuesList => conditionValues.GetValues();
         
         internal void AddNode(IDialogueNode phraseNode)
         {
+            Undo.RecordObject(this, "Node added");
+            
             switch (phraseNode)
             {
                 case DialoguePhraseNode dialoguePhraseNode:
@@ -44,10 +47,14 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
                     conditionNodes.Add(dialogueConditionNode);
                     break;
             }
+
+            EditorUtility.SetDirty(this);
         }
 
         internal void RemoveNode(IDialogueNode phraseNode)
         {
+            Undo.RecordObject(this, "Node removed");
+            
             switch (phraseNode)
             {
                 case DialoguePhraseNode dialoguePhraseNode:
@@ -57,16 +64,29 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
                     conditionNodes.Remove(dialogueConditionNode);
                     break;
             }
+            
+            EditorUtility.SetDirty(this);
+        }
+
+        internal void AddConditionValue(ConditionValue conditionValue)
+        {
+            Undo.RecordObject(this, "Condition value added");
+            conditionValues.Add(conditionValue);
+            EditorUtility.SetDirty(this);
         }
 
         internal void AddActor(Actor actor)
         {
+            Undo.RecordObject(this, "Actor added");
             actors.Add(actor);
+            EditorUtility.SetDirty(this);
         }
 
         internal void RemoveActor(Actor actor)
         {
+            Undo.RecordObject(this, "Actor removed");
             actors.Remove(actor);
+            EditorUtility.SetDirty(this);
         }
 
         [ContextMenu("ClearAll")]
