@@ -16,6 +16,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
         public event Action<Actor, ActorData> OnNewActorViewCreate;
         public event Action OnTabViewsChanged;
         public event Action<ITabView> OnViewSelected;
+        public event Action<Actor> OnActorNameChanged; 
 
         private readonly TemplateContainer _root;
         private readonly DialogueContainer _dialogueContainer;
@@ -120,7 +121,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             textField.RegisterValueChangedCallback(evt =>
             {
                 _dialogueContainer.ActorsList[i].ActorName = evt.newValue;
+                OnActorNameChanged?.Invoke(_dialogueContainer.ActorsList[i]);
             });
+            
             var mask = e.Q<MaskField>();
             var choices = stringTableCollection.Select(t => t.SharedData.TableCollectionName).ToList();
             mask.choices = choices;

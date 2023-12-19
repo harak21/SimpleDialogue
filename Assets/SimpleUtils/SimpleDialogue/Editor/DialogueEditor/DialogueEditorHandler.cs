@@ -48,6 +48,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             CreateGlobalConditionsTab();
             CreateLocalConditionsTab();
             CreateActorsSettingsTab();
+            CreateEventButton();
 
             if (_tabViews.Count > 0)
             {
@@ -120,7 +121,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         {
             var conditionView = new ConditionValuesTabView(_rootView,
                 "Global Conditions",
-                _globalConditionValues);
+                _globalConditionValues,
+                true);
             conditionView.OnViewSelected += ViewSelected;
             conditionView.OnNodeCreate += CreateConditionNode;
             _tabViews.Add(conditionView);
@@ -130,7 +132,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         {
             _localConditionValuesView = new ConditionValuesTabView(_rootView,
                 $"{_currentWindow.name} Local Conditions",
-                _dialogueContainer);
+                _dialogueContainer,
+                false);
             _localConditionValuesView.OnViewSelected += ViewSelected;
             _localConditionValuesView.OnNodeCreate += CreateConditionNode;
             _tabViews.Add(_localConditionValuesView);
@@ -142,6 +145,10 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             _actorsSettingsTab.OnNewActorViewCreate += CreateActorView;
             _actorsSettingsTab.OnViewSelected += ViewSelected;
             _actorsSettingsTab.OnTabViewsChanged += UpdateTabs;
+            _actorsSettingsTab.OnActorNameChanged += (actor) =>
+            {
+                _graph.UpdatePhraseNodes(actor);
+            };
             _actorsSettingsTab.LoadActorsData();
         }
 
@@ -151,6 +158,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             actorView.OnNodeCreate += CreatePhraseNode;
             actorView.OnViewSelected += ViewSelected;
             _tabViews.Add(actorView);
+        }
+        
+        
+        private void CreateEventButton()
+        {
+            var draggableItem = new DraggableItem(_rootView.Q<Button>("addEvent"));
+            draggableItem.OnItemDropped += CreateEventNode;
         }
 
         private void ViewSelected(ITabView selectedView)
@@ -181,13 +195,24 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             Save();
         }
 
-        private void CreateConditionNode(ConditionValue conditionValue, Vector2 pos)
+        private void CreateConditionNode(ConditionValue conditionValue, Vector2 pos, bool isReadOnly)
         {
             var id = Guid.NewGuid().GetHashCode();
             var node = new DialogueConditionNode(id, conditionValue);
             _dialogueContainer.AddNode(node);
             _dialogueContainer.NodeData.Add(new DialogueNodeData() { nodeID = id, position = pos });
-            _graph.AddConditionNode(node, conditionValue, pos, true);
+            _graph.AddConditionNode(node, conditionValue, pos, true, isReadOnly);
+            
+            Save();
+        }
+        
+        private void CreateEventNode(Vector2 pos)
+        {
+            var id = Guid.NewGuid().GetHashCode();
+            var eventNode = new DialogueEventNode(id);
+            _dialogueContainer.AddNode(eventNode);
+            _dialogueContainer.NodeData.Add(new DialogueNodeData() {nodeID = id, position = pos});
+            _graph.AddEventNode(eventNode, pos, true);
             
             Save();
         }
@@ -207,7 +232,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
                 var position = _dialogueContainer.NodeData.Find(
                     d => d.nodeID == node.ID).position;
 
-                _graph.AddPhraseNode(sharedTableEntry.Key, position, node, node.Actor, false);
+                var actor = _dialogueContainer.Actors[node.ActorID];
+                _graph.AddPhraseNode(sharedTableEntry.Key, position, node, actor, false);
             }
 
             foreach (var conditionNode in _dialogueContainer.ConditionsList)
@@ -215,16 +241,26 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
                 var position = _dialogueContainer.NodeData.Find(
                     d => d.nodeID == conditionNode.ID).position;
 
-                if (!_dialogueContainer.ConditionValues.TryGetValue(conditionNode.ConditionID, out var conditionValue))
+                if (_dialogueContainer.ConditionValues.TryGetValue(conditionNode.ConditionID, out var conditionValue))
                 {
-                    if (!_globalConditionValues.ConditionValues.TryGetValue(conditionNode.ConditionID, out conditionValue))
-                    {
-                        Debug.LogError($"failed to find ConditionValue with id {conditionNode.ConditionID}");
-                        continue;
-                    }
+                    _graph.AddConditionNode(conditionNode, conditionValue, position, false, false);
+                    continue;
+                }
+                if (_globalConditionValues.ConditionValues.TryGetValue(conditionNode.ConditionID, out conditionValue))
+                {
+                    _graph.AddConditionNode(conditionNode, conditionValue, position, false, true);
+                    continue;
                 }
 
-                _graph.AddConditionNode(conditionNode, conditionValue, position, false);
+                Debug.LogError($"failed to find ConditionValue with id {conditionNode.ConditionID}");
+            }
+
+            foreach (var eventNode in _dialogueContainer.EventsList)
+            {
+                var position = _dialogueContainer.NodeData.Find(
+                    d => d.nodeID == eventNode.ID).position;
+                
+                _graph.AddEventNode(eventNode, position, false);
             }
 
             _graph.ConnectNodes();
@@ -277,6 +313,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
                 _localConditionValuesView.Update();
                 return (node, localCondition);
             };
+            _graph.OnConditionValueChanged += () => _localConditionValuesView.Update();
+            _graph.OnFirstNodeChanged += node => _dialogueContainer.FirstNode = node;
         }
 
         public void Clear()

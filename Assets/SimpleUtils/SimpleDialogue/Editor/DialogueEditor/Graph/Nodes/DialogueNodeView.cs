@@ -14,7 +14,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
         public Port InputPort;
         public Port OutputPort;
         
-        public Vector2 NodeLayoutPosition => layout.position;
+        public Vector2 NodeLayoutPosition { get; set; }
         
         public List<Edge> Edges
         {
@@ -44,7 +44,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
             usageHints = UsageHints.DynamicTransform;
         }
 
-        public abstract void RemoveNextNode(int i);
+        public abstract void RemoveNextNode(int nextNodeID);
         public abstract void AddNextNode(int nextNodeID);
         
         public override void OnSelected()

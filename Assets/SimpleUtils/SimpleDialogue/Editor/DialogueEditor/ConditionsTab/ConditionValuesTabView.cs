@@ -11,21 +11,23 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
     internal class ConditionValuesTabView : IDialogueEditorTabView
     {
         public event Action<ITabView> OnViewSelected;
-        public event Action<ConditionValue, Vector2> OnNodeCreate;
+        public event Action<ConditionValue, Vector2, bool> OnNodeCreate;
         
         public string TabTitle { get;}
 
         private readonly TemplateContainer _root;
         private readonly IConditionValuesProvider _conditionValuesProvider;
+        private readonly bool _isReadOnlyValues;
         private readonly string _dataKey;
         private Button _viewButton;
         private ConditionValuesListHandler _conditionValuesListHandler;
         private Label _tabLabel;
 
-        public ConditionValuesTabView(TemplateContainer root, string dataKey, IConditionValuesProvider conditionValuesProvider)
+        public ConditionValuesTabView(TemplateContainer root, string dataKey, IConditionValuesProvider conditionValuesProvider, bool isReadOnlyValues)
         {
             _root = root;
             _conditionValuesProvider = conditionValuesProvider;
+            _isReadOnlyValues = isReadOnlyValues;
             _dataKey = $"SimpleDialogGraph{dataKey}";
             TabTitle = dataKey;
             CreateView();
@@ -73,7 +75,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
             _viewButton.clicked += Show;
             
             _conditionValuesListHandler.Hide();
-            _conditionValuesListHandler.OnNodeCreate += (node, pos) => OnNodeCreate?.Invoke(node, pos);
+            _conditionValuesListHandler.OnNodeCreate += (node, pos) => OnNodeCreate?.Invoke(node, pos, _isReadOnlyValues);
         }
     }
 }

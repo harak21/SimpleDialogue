@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
@@ -12,6 +13,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
 {
     internal class ConditionNodeView : DialogueNodeView
     {
+        public event Action<ConditionValue> OnLocalConditionChanged; 
+        
         private readonly DialogueConditionNode _dialogueConditionNode;
         public override IEnumerable<int> NextNodes
         {
@@ -32,7 +35,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
         public override int ID => _dialogueConditionNode.ID;
         public override IDialogueNode DialogueNode => _dialogueConditionNode;
 
-        public ConditionNodeView(DialogueConditionNode conditionNode, ConditionValue conditionValue)
+        public DialogueConditionNode ConditionNode => _dialogueConditionNode;
+
+        public ConditionNodeView(DialogueConditionNode conditionNode, ConditionValue conditionValue, bool isReadOnly)
         {
             _dialogueConditionNode = conditionNode;
             var visualTreeAsset = AssetProvider.LoadAssetAtAssetName<VisualTreeAsset>("ConditionNodeView");
@@ -40,9 +45,12 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
 
             var textField = this.Q<TextField>("description");
             textField.value = conditionValue.Description;
+            textField.isReadOnly = isReadOnly;
+            
             textField.RegisterValueChangedCallback(evt =>
             {
                 conditionValue.Description = evt.newValue;
+                OnLocalConditionChanged?.Invoke(conditionValue);
             });
 
             var enumField = this.Q<EnumField>("conditionType");
@@ -58,18 +66,26 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
             {
                 conditionNode.ReferenceValue = evt.newValue;
             });
+
+            tooltip = conditionValue.ID.ToString();
             
             ConstructNode();
         }
 
-        public override void RemoveNextNode(int i)
+        public override void RemoveNextNode(int nextNodeID)
         {
-            _dialogueConditionNode.RemoveNextNode(i);
+            _dialogueConditionNode.RemoveNextNode(nextNodeID);
         }
 
         public override void AddNextNode(int nextNodeID)
         {
             _dialogueConditionNode.AddNextNode(nextNodeID);
+        }
+
+        public void ChangeDescription(ConditionValue conditionValue)
+        {
+            var textField = this.Q<TextField>("description");
+            textField.value = conditionValue.Description;
         }
     }
 }

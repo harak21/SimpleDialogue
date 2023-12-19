@@ -19,40 +19,37 @@ MonoBehaviour:
     nextNodes: 
     condition: 0
   dialogueNodes:
-    keys: 2ff2b0e1e2b4d502470f02f7
+    keys: e3952069e8bbe71a11e1737a
     values:
-    - id: -508497361
-      nextNodes: e2b4d502470f02f7
+    - id: 1763743203
+      nextNodes: e8bbe71a11e1737a
       tableName: PlayerPhrases
-      entryKey: 47584919552
-      actor:
-        id: -1389120166
-        actorName: NewActorName
-    - id: 47559906
-      nextNodes: 1b058c2adf0d63b1
-      tableName: PlayerPhrases
-      entryKey: 47584919552
-      actor:
-        id: -1389120166
-        actorName: NewActorName
-    - id: -150859961
+      tableKey: 0
+      entryKey: 31789170688
+      actorID: -1389120166
+    - id: 451394536
       nextNodes: 
       tableName: PlayerPhrases
-      entryKey: 31789170688
-      actor:
-        id: -1389120166
-        actorName: NewActorName
+      tableKey: 0
+      entryKey: 8984739840
+      actorID: -1389120166
+    - id: 2054414609
+      nextNodes: 37f0848d
+      tableName: PlayerPhrases
+      tableKey: 0
+      entryKey: 47584919552
+      actorID: -1389120166
   conditionNodes:
-    keys: 1b058c2adf0d63b1
+    keys: a51c56e8f68d5f8e
     values:
-    - id: 713819419
-      conditionID: -714686472
-      referenceValue: 0
+    - id: -397009755
+      conditionID: -7869433
+      referenceValue: 123
       nextNodes: 
       condition: 0
-    - id: -1318908449
+    - id: -1906340362
       conditionID: -7869433
-      referenceValue: 0
+      referenceValue: 2
       nextNodes: 
       condition: 0
   actors:
@@ -67,19 +64,27 @@ MonoBehaviour:
       <Description>k__BackingField: asdasd
       <Value>k__BackingField: 0
     - <ID>k__BackingField: -7869433
-      <Description>k__BackingField: Condition description
+      <Description>k__BackingField: condition
       <Value>k__BackingField: 0
+  eventNodes:
+    keys: 37f0848d
+    values:
+    - id: -1920667593
+      nextNodes: 
+      eventName: new Event
   nodeData:
-  - nodeID: -508497361
-    position: {x: 232, y: 201}
-  - nodeID: 47559906
-    position: {x: 578, y: 304}
-  - nodeID: -150859961
-    position: {x: 578, y: 124}
-  - nodeID: 713819419
-    position: {x: 872, y: 359}
-  - nodeID: -1318908449
-    position: {x: 880, y: 198}
+  - nodeID: 1763743203
+    position: {x: -493, y: 124}
+  - nodeID: 451394536
+    position: {x: -220, y: 74}
+  - nodeID: 2054414609
+    position: {x: -220, y: 179}
+  - nodeID: -397009755
+    position: {x: 97, y: 179}
+  - nodeID: -1906340362
+    position: {x: 97, y: 24}
+  - nodeID: -1920667593
+    position: {x: 105, y: 346}
   actorsData:
   - actorID: -1389120166
     tables:
