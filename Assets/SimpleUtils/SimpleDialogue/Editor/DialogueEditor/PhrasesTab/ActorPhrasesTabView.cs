@@ -13,6 +13,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
         public event Action<SharedTableData.SharedTableEntry, Vector2, string, Actor> OnNodeCreate;
 
         private string TabTitle { get; }
+        public bool IsShowed { get; private set; }
+
         private readonly TemplateContainer _root;
         private readonly Actor _actor;
         private readonly ActorData _actorData;
@@ -34,6 +36,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
 
         public void Show()
         {
+            IsShowed = true;
             OnViewSelected?.Invoke(this);
             _viewButton.AddToClassList("menu__button--selected");
             _phrasesListHandler.Show();
@@ -42,6 +45,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
 
         public void Hide()
         {
+            IsShowed = false;
             _viewButton.RemoveFromClassList("menu__button--selected");
             _phrasesListHandler.Hide();
         }
@@ -49,6 +53,12 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
         public void Update()
         {
             _phrasesListHandler.UpdateList();
+        }
+
+        public void Dispose()
+        {
+            Hide();
+            _root.Q<VisualElement>("leftMenu").Remove(_viewButton);
         }
 
         private void CreateActorView()
@@ -72,6 +82,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
                 _dataKey);
             
             _viewButton = buttonTemplate.CloneTree().Q<Button>();
+            _viewButton.Q<Label>().text = _actor.ActorName;
             leftMenu.Add(_viewButton);
             _viewButton.clicked += Show;
             

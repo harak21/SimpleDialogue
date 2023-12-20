@@ -25,12 +25,6 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             _globalValues = globalValues;
             _itemTemplate = AssetProvider.LoadAssetAtAssetName<VisualTreeAsset>("GlobalValueListItemView");
             
-            Undo.undoRedoPerformed += UndoRedoPerformed;
-        }
-
-        private void UndoRedoPerformed()
-        {
-            Update();
         }
 
         public VisualElement GetContentTree(Button tabButton)
@@ -42,7 +36,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             _listView.viewDataKey = "GlobalValuesListView";
             _listView.makeItem = MakeItem;
             _listView.bindItem = BindItem;
-            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionNodes.GetValues();
+            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.GetValues();
             _listView.selectionType = SelectionType.Single;
             
             _listView.reorderable = false;
@@ -78,7 +72,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
 
         public void Update()
         {
-            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionNodes.GetValues();
+            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.GetValues();
             _listView.RefreshItems();
         }
 

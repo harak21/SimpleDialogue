@@ -10,5 +10,6 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
         SimpleSerializedDictionary<DialoguePhraseNode> DialogueNodes { get; }
         SimpleSerializedDictionary<DialogueConditionNode> ConditionNodes { get; }
         SimpleSerializedDictionary<ConditionValue> ConditionValues { get; }
+        SimpleSerializedDictionary<Actor> Actors { get; }
     }
 }

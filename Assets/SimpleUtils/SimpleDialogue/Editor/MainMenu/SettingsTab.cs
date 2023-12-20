@@ -79,16 +79,16 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
         private void ConstructButtons(Button tabButton)
         {
             var save = _root.Q<Button>("save");
-            save.clicked += () => _saveLoadProvider.Save(_globalValues.ConditionNodes.GetValues());
+            save.clicked += () => _saveLoadProvider.Save(_globalValues.ConditionValues.GetValues());
             
             var load = _root.Q<Button>("load");
             load.clicked += () =>
             {
                 var conditionValues = _saveLoadProvider.Load();
-                _globalValues.ConditionNodes.Clear();
+                _globalValues.ConditionValues.Clear();
                 foreach (var conditionValue in conditionValues)
                 {
-                    _globalValues.ConditionNodes.Add(conditionValue);
+                    _globalValues.ConditionValues.Add(conditionValue);
                 }
                 OnGlobalValuesChanged?.Invoke();
             };

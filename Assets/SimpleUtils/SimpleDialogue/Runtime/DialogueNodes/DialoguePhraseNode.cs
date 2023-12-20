@@ -10,8 +10,10 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
         [SerializeField] private int id;
         [SerializeField] private List<int> nextNodes = new();
         [SerializeField] private string tableName;
+        [SerializeField] private long tableKey;
         [SerializeField] private long entryKey;
-        [SerializeField] private Actor actor;
+        //[SerializeField] private Actor actor;
+        [SerializeField] private int actorID;
 
         public int ID
         {
@@ -33,10 +35,10 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             private set => entryKey = value;
         }
 
-        public Actor Actor
+        public int ActorID
         {
-            get => actor;
-            set => actor = value;
+            get => actorID;
+            set => actorID = value;
         }
 
         public DialoguePhraseNode(int id, long entryKey, string tableName, Actor actor)
@@ -44,7 +46,7 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             ID = id;
             EntryKey = entryKey;
             TableName = tableName;
-            this.actor = actor;
+            ActorID = actor.ID;
         }
 
         public void AddNextNode(int nextNodeID) 

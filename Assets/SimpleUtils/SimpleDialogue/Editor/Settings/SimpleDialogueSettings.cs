@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace SimpleUtils.SimpleDialogue.Editor.Settings
 {
@@ -9,7 +10,12 @@ namespace SimpleUtils.SimpleDialogue.Editor.Settings
         public string ConditionLoaderTypeName
         {
             get => conditionLoaderTypeName;
-            set => conditionLoaderTypeName = value;
+            set
+            {
+                Undo.RecordObject(this, "Changed condition values loader");
+                conditionLoaderTypeName = value;
+                EditorUtility.SetDirty(this);
+            }
         }
     }
 }

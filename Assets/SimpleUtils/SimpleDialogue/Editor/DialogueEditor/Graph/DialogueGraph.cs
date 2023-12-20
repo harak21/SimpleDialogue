@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
@@ -14,7 +15,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
     {
         public event Action<List<DialogueNodeView>> OnNodesMoved;
         public event Action<List<DialogueNodeView>> OnNodesRemoved;
-        public event Func<Vector2, (DialogueConditionNode, ConditionValue)> OnNewConditionNodeCreate; 
+        public event Func<Vector2, (DialogueConditionNode, ConditionValue)> OnNewConditionNodeCreate;
+        public event Action OnConditionValueChanged;
+        public event Action<DialogueConditionNode> OnFirstNodeChanged;
 
         private readonly DialogueEditorWindow _currentWindow;
         private readonly List<DialogueNodeView> _dialogGraphNodeViews = new();
@@ -30,31 +33,65 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
             styleSheets.Add(styleSheet);
         }
 
+        public void ClearGraph()
+        {
+            foreach (var edge in edges)
+            {
+                RemoveElement(edge);
+            }
+
+            foreach (var node in _dialogGraphNodeViews)
+            {
+                RemoveElement(node);
+            }
+            _dialogGraphNodeViews.Clear();
+        }
+        
+        public void UpdatePhraseNodes(Actor actor)
+        {
+            foreach (var node in _dialogGraphNodeViews)
+            {
+                if (node is PhraseNodeView dialoguePhraseNode && dialoguePhraseNode.DialogPhraseNode.ActorID == actor.ID)
+                {
+                    dialoguePhraseNode.UpdateActorName(actor.ActorName);
+                }
+            }
+        }
+
         public void AddPhraseNode(string nodeTitle, Vector2 pos, DialoguePhraseNode phraseNode, Actor actor, bool isNew)
         {
             var nodeView = new PhraseNodeView(actor, phraseNode, nodeTitle);
 
             AddNode(pos, isNew, nodeView);
         }
-
-        public void AddConditionNode(DialogueConditionNode conditionNode, ConditionValue conditionValue, Vector2 pos, bool isNew)
+        
+        
+        public void AddEventNode(DialogueEventNode eventNode, Vector2 pos, bool isNew)
         {
-            var nodeView = new ConditionNodeView(conditionNode, conditionValue);
+            var nodeView = new EventNodeView(eventNode);
             
-            if (isNew)
-            {
-                var localMousePosition = GetLocalMousePosition(pos);
-                nodeView.style.left = localMousePosition.x;
-                nodeView.style.top = localMousePosition.y;
-                OnNodesMoved?.Invoke(new List<DialogueNodeView>(){nodeView});
-            }
-            else
-            {
-                nodeView.style.left = pos.x;
-                nodeView.style.top = pos.y;
-            }
+            AddNode(pos, isNew, nodeView);
+        }
 
-            AddNode(pos, false, nodeView);
+        public ConditionNodeView AddConditionNode(DialogueConditionNode conditionNode, ConditionValue conditionValue, Vector2 pos, bool isNew, bool isReadOnly)
+        {
+            var nodeView = new ConditionNodeView(conditionNode, conditionValue, isReadOnly);
+            nodeView.OnLocalConditionChanged += changedCondition =>
+            {
+                foreach (var dialogGraphNodeView in _dialogGraphNodeViews)
+                {
+                    if (dialogGraphNodeView is ConditionNodeView conditionNodeView 
+                        && conditionNodeView.ConditionNode.ConditionID == changedCondition.ID)
+                    {
+                        conditionNodeView.ChangeDescription(changedCondition);
+                        OnConditionValueChanged?.Invoke();
+                    }
+                }
+            };
+
+            AddNode(pos, isNew, nodeView);
+
+            return nodeView;
         }
 
         private void AddNode(Vector2 pos, bool isNew, DialogueNodeView nodeView)
@@ -64,13 +101,15 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
                 var localMousePosition = GetLocalMousePosition(pos);
                 nodeView.style.left = localMousePosition.x;
                 nodeView.style.top = localMousePosition.y;
+                nodeView.NodeLayoutPosition = localMousePosition;
+                OnNodesMoved?.Invoke(new List<DialogueNodeView>(){nodeView});
             }
             else
             {
                 nodeView.style.left = pos.x;
                 nodeView.style.top = pos.y;
             }
-
+            
             nodeView.OnDroppedOutsidePort += EdgeDroppedOutsidePort;
             
             AddElement(nodeView);
@@ -79,9 +118,6 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
 
         private void EdgeDroppedOutsidePort(Edge edge, Vector2 pos)
         {
-            //TODO :the ability to create conditions by dragging a edge is currently disabled
-            //we need to add a view update
-            return;
             var localMousePosition = GetLocalMousePosition(pos);
             var valueTuple = OnNewConditionNodeCreate?.Invoke(localMousePosition);
             if (valueTuple is null)
@@ -90,8 +126,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
             }
             var conditionNode = valueTuple.Value.Item1;
             var conditionValue = valueTuple.Value.Item2;
-            var nodeView = new ConditionNodeView(conditionNode, conditionValue);
-            AddNode(localMousePosition, false, nodeView);
+
+            var nodeView = AddConditionNode(conditionNode, conditionValue,  localMousePosition, false, false);
+            
             var dialogueNodeView = edge.output.GetFirstAncestorOfType<DialogueNodeView>();
             dialogueNodeView.AddNextNode(conditionNode.ID);
             var newEdge = dialogueNodeView.OutputPort.ConnectTo(nodeView.InputPort);
@@ -158,8 +195,22 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
         private IManipulator ClearContextualMenu()
         {
             ContextualMenuManipulator manipulator = new ContextualMenuManipulator(
-                menuEvent => { menuEvent.menu.MenuItems().Clear(); });
+                menuEvent =>
+                {
+                    menuEvent.menu.MenuItems().Clear();
+                    menuEvent.menu.AppendAction("Set as start", SetAsStartNode);
+                });
             return manipulator;
+        }
+
+        private void SetAsStartNode(DropdownMenuAction action)
+        {
+            var node = selection.Find(s => s is ConditionNodeView);
+            
+            if (node is not ConditionNodeView nodeView)
+                return;
+            
+            OnFirstNodeChanged?.Invoke(nodeView.ConditionNode);
         }
 
         private void OnGraphChanged()
@@ -205,6 +256,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
                 switch (movedElement)
                 {
                     case DialogueNodeView node:
+                        node.NodeLayoutPosition = node.layout.position;
                         movedNodes.Add(node);
                         //OnNodeMoved?.Invoke(node);
                         break;

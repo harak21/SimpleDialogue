@@ -12,6 +12,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
         public override int ID => _dialogPhraseNode.ID;
         public override IDialogueNode DialogueNode => _dialogPhraseNode;
 
+        public DialoguePhraseNode DialogPhraseNode => _dialogPhraseNode;
+
         public PhraseNodeView(Actor actor, DialoguePhraseNode dialogPhraseNode, string title)
         {
             AssetProvider.LoadAssetAtAssetName<VisualTreeAsset>("NodeView").CloneTree(this);
@@ -19,18 +21,25 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph.Nodes
             _dialogPhraseNode = dialogPhraseNode;
             this.Q<Label>("phraseText").text = title;
             this.Q<Label>("nodeType").text = actor.ActorName;
+
+            tooltip = dialogPhraseNode.ID.ToString();
             
             ConstructNode();
         }
         
-        public override void RemoveNextNode(int i)
+        public override void RemoveNextNode(int nextNodeID)
         {
-            _dialogPhraseNode.RemoveNextNode(i);
+            _dialogPhraseNode.RemoveNextNode(nextNodeID);
         }
         
         public override void AddNextNode(int nextNodeID)
         {
             _dialogPhraseNode.AddNextNode(nextNodeID);
+        }
+
+        public void UpdateActorName(string actorName)
+        {
+            this.Q<Label>("nodeType").text = actorName;
         }
     }
 }

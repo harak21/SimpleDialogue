@@ -201,8 +201,9 @@ GridBackground {
     margin: 5px;
     padding: 10px;
     background-color: var(--blackishblue-color);
+    border-color: var(--blackishblue-color);
     height: 65px;
-    border-width: 0;
+    border-width: 1px;
     border-radius: 5px;
 }
 
@@ -216,6 +217,12 @@ GridBackground {
 
 .menu__button__sprite {
     flex-grow: 1;
+}
+
+.menu__button > .unity-label{
+    white-space: normal;
+    text-overflow: ellipsis;
+    -unity-text-overflow-position: middle;
 }
 
 .menu__button--selected {

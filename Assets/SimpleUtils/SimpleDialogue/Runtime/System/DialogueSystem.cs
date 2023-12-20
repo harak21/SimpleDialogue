@@ -47,7 +47,8 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
             {
                 var phrase = _stringDatabase.GetLocalizedString(
                     currentNode.TableName, currentNode.EntryKey);
-                nodeData.Add(phrase, currentNode.Actor);
+                nodeData.Add(phrase,
+                    _currentDialogueContainer.Actors.TryGetValue(currentNode.ActorID, out var actor) ? actor : null);
             }
             
             var selectNextNodesId = _currentNodes.Select(n => n.NextNodes);

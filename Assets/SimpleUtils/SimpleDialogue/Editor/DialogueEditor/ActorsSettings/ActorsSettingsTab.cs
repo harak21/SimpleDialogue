@@ -16,6 +16,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
         public event Action<Actor, ActorData> OnNewActorViewCreate;
         public event Action OnTabViewsChanged;
         public event Action<ITabView> OnViewSelected;
+        public event Action<Actor> OnActorNameChanged; 
 
         private readonly TemplateContainer _root;
         private readonly DialogueContainer _dialogueContainer;
@@ -53,11 +54,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
 
         public void Update()
         {
+            _actorList.itemsSource = _dialogueContainer.ActorsList;
+            _actorList.RefreshItems();
         }
         
         public void  LoadActorsData()
         {
-            foreach (var actor in _dialogueContainer.Actors.GetValues())
+            foreach (var actor in _dialogueContainer.ActorsList)
             {
                 var actorData = _dialogueContainer.ActorsData.Find(d => d.actorID == actor.ID);
                 OnNewActorViewCreate?.Invoke(actor, actorData);
@@ -79,7 +82,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
                 };
                 dialogueContainer.ActorsData.Add(actorData);
                 OnNewActorViewCreate?.Invoke(newActor, actorData);
-                _actorList.itemsSource = dialogueContainer.Actors.GetValues();
+                _actorList.itemsSource = dialogueContainer.ActorsList;
                 _actorList.RefreshItems();
             };
         }
@@ -105,7 +108,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             _actorList = _actorsMenu.Q<ListView>("actorsList");
             _actorList.makeItem = MakeItem;
             _actorList.bindItem = BindItem;
-            _actorList.itemsSource = dialogueContainer.Actors.GetValues();
+            _actorList.itemsSource = dialogueContainer.ActorsList;
             _actorList.selectionType = SelectionType.None;
             _actorList.reorderable = false;
         }
@@ -118,7 +121,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             textField.RegisterValueChangedCallback(evt =>
             {
                 _dialogueContainer.ActorsList[i].ActorName = evt.newValue;
+                OnActorNameChanged?.Invoke(_dialogueContainer.ActorsList[i]);
             });
+            
             var mask = e.Q<MaskField>();
             var choices = stringTableCollection.Select(t => t.SharedData.TableCollectionName).ToList();
             mask.choices = choices;
