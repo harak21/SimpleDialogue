@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Samples/SimpleUtils/SimpleDialogue/UI/UITK/SampleStyleSheet.uss?fileID=7433441132597879392&amp;guid=707922b2918877e4380f20012cf52fb8&amp;type=3#SampleStyleSheet" />
+    <ui:VisualElement style="align-items: center; justify-content: center; width: auto; height: 100%; background-color: rgb(21, 26, 36);">
+        <ui:VisualElement style="width: 40%; justify-content: center; height: 100%; background-color: rgb(21, 26, 36); padding-left: 5%; padding-right: 5%; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(86, 102, 140); border-right-color: rgb(86, 102, 140); border-top-color: rgb(86, 102, 140); border-bottom-color: rgb(86, 102, 140);">
+            <ui:Button text="START" display-tooltip-when-elided="true" name="sceneLoadButton" style="height: 10%; background-color: rgb(21, 26, 36); -unity-font: url(&apos;project://database/Assets/Samples/SimpleUtils/SimpleDialogue/UI/Fonts/Montserrat-Regular.ttf?fileID=12800000&amp;guid=7521a74ddca36f147b084c5a54142693&amp;type=3#Montserrat-Regular&apos;); -unity-font-definition: resource(&apos;Fonts &amp; Materials/Montserrat-Regular SDF&apos;); color: rgb(255, 255, 255);" />
+            <ui:Button text="START" display-tooltip-when-elided="true" name="sceneLoadButton" style="height: 10%; background-color: rgb(21, 26, 36); color: rgb(255, 255, 255);" />
+            <ui:Button text="START" display-tooltip-when-elided="true" name="sceneLoadButton" style="height: 10%; background-color: rgb(21, 26, 36);" />
+        </ui:VisualElement>
+        <ui:VisualElement style="position: absolute; top: 10%; width: 100%;">
+            <ui:Label text="SAMPLES" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; white-space: nowrap; align-items: center; justify-content: center; font-size: 35px; -unity-font-style: normal;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

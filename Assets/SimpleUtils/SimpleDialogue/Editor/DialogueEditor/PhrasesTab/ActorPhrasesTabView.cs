@@ -10,7 +10,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
     internal class ActorPhrasesTabView : IDialogueEditorTabView
     {
         public event Action<ITabView> OnViewSelected;
-        public event Action<SharedTableData.SharedTableEntry, Vector2, string, Actor> OnNodeCreate;
+        public event Action<SharedTableData.SharedTableEntry, Vector2, Guid, Actor> OnNodeCreate;
 
         private string TabTitle { get; }
         public bool IsShowed { get; private set; }

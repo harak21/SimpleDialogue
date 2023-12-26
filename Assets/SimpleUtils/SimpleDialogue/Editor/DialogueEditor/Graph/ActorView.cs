@@ -11,7 +11,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
     internal class ActorView
     {
         public event Action OnActorViewSelected;
-        public Action<SharedTableData.SharedTableEntry, Vector2, string, Actor> OnNodeCreate;
+        public Action<SharedTableData.SharedTableEntry, Vector2, Guid, Actor> OnNodeCreate;
         
         private readonly TemplateContainer _root;
         private readonly Actor _actor;

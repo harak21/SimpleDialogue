@@ -63,11 +63,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         private void BindItem(VisualElement e, int i)
         {
             ((DraggableListItem)e).Bind(_conditionValues[i].ID,
-                string.Empty,
+                Guid.Empty,
                 _conditionValues[i].Description);
         }
         
-        private void NodeCreate(long longKey, string stringKey, Vector2 position)
+        private void NodeCreate(long longKey, Guid guidKey, Vector2 position)
         {
             var condition = _conditionValues.Find(n => n.ID == longKey);
             if (condition is null)

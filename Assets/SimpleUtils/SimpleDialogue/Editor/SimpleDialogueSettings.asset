@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4853170d7c554df29c7bb85e9ff5b933, type: 3}
   m_Name: SimpleDialogueSettings
   m_EditorClassIdentifier: 
+  conditionLoaderTypeName: JsonGlobalValuesSaveLoadProvider
