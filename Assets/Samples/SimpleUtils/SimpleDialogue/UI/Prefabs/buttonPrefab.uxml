@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Button text="phrasesdadasd asdasxdcasfwdasdasdedadwq4123edawdasd" display-tooltip-when-elided="true" name="buttonPrefab" style="flex-shrink: 1; background-color: rgb(27, 32, 44); white-space: normal; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; margin-top: 5px; margin-bottom: 5px; font-size: 20px; visibility: visible; flex-grow: 1;" />
+</ui:UXML>

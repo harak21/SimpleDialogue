@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
@@ -11,34 +10,36 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
 {
     public class DialogueSystem
     {
+        public event Action<DialogueEvent> OnEventOccurred;
+        
         private readonly IDialogueConditionHandler _dialogueConditionHandler;
         private readonly LocalizedStringDatabase _stringDatabase;
-        private readonly ILoadDataService _loadDataService;
+        private readonly ILoadDialogueService _loadDialogueService;
         
         private IDialogueContainer _currentDialogueContainer;
 
         private readonly HashSet<DialoguePhraseNode> _currentPhraseNodes = new();
 
-        public DialogueSystem(ILoadDataService loadDataService) : this(loadDataService, new DummyDialogConditionHandler())
+        public DialogueSystem(ILoadDialogueService loadDialogueService) : this(loadDialogueService, new DummyDialogConditionHandler())
         {
         }
 
-        public DialogueSystem(ILoadDataService loadDataService, IDialogueConditionHandler dialogueConditionHandler)
+        public DialogueSystem(ILoadDialogueService loadDialogueService, IDialogueConditionHandler dialogueConditionHandler)
         {
             _dialogueConditionHandler = dialogueConditionHandler;
-            _loadDataService = loadDataService;
+            _loadDialogueService = loadDialogueService;
             _stringDatabase = LocalizationSettings.Instance.GetStringDatabase();
         }
 
-        public async Task<bool> TryInitNewDialogue(int dialogID)
+        public async Task<List<Phrase>> TryInitNewDialogue(int dialogID)
         {
             _currentDialogueContainer = null;
-            _currentDialogueContainer = await _loadDataService.Load(dialogID);
+            _currentDialogueContainer = await _loadDialogueService.Load(dialogID);
 
             if (_currentDialogueContainer is null)
             {
                 Debug.LogWarning("Dialogue not found");
-                return false;
+                return new List<Phrase>();
             }
 
             var firstNodeID = _currentDialogueContainer.FirstNodeID;
@@ -47,36 +48,40 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
             if (firstNode is null)
             {
                 Debug.LogWarning("First dialogue node not found");
-                return false;
+                return new List<Phrase>();
             }
-            
-            _currentPhraseNodes.Clear();
-            
-            GetNextNodes(firstNode.NextNodes);
 
-            return true;
+            return GetNextPhrases(firstNodeID);
         }
 
-        public List<Phrase> GetNextPhrases()
+        public List<Phrase> GetNextPhrases(int previousPhraseID)
         {
             List<Phrase> phrases = new();
+            
+            if (!_currentDialogueContainer.DialogueNodes.TryGetValue(previousPhraseID, out var previousNode))
+                return phrases;
+            
+            _currentPhraseNodes.Clear();
+            GetNextNodes(previousNode.NextNodes);
 
             foreach (var currentNode in _currentPhraseNodes)
             {
-                var localizedPhrase = _stringDatabase.GetLocalizedString(
-                    new Guid(currentNode.TableKey), currentNode.EntryKey);
-                _currentDialogueContainer.Actors.TryGetValue(currentNode.ActorID, out var actor);
-                phrases.Add(new Phrase(currentNode.TableKey, currentNode.EntryKey, localizedPhrase, actor.ActorName));
-            }
-            
-            var selectNextNodesId = _currentPhraseNodes.Select(n => n.NextNodes);
-            _currentPhraseNodes.Clear();
-            foreach (var nodeID in selectNextNodesId)
-            {
-                GetNextNodes(nodeID);
+                phrases.Add(FillPhraseData(currentNode));
             }
 
             return phrases;
+        }
+
+        private Phrase FillPhraseData(DialoguePhraseNode dialoguePhraseNode)
+        {
+            var localizedPhrase = _stringDatabase.GetLocalizedString(
+                new Guid(dialoguePhraseNode.TableKey), dialoguePhraseNode.EntryKey);
+            _currentDialogueContainer.Actors.TryGetValue(dialoguePhraseNode.ActorID, out var actor);
+            return new Phrase(dialoguePhraseNode.ID,
+                dialoguePhraseNode.TableKey,
+                dialoguePhraseNode.EntryKey,
+                localizedPhrase,
+                actor);
         }
 
         private IDialogueNode GetFirstDialogueNode(int firstNodeID)
@@ -112,6 +117,11 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
                     var conditionState = _dialogueConditionHandler.GetConditionState(conditionNode.ConditionID);
                     conditionNode.SetCurrentConditionValue(conditionState);
                     GetNextNodes(conditionNode.NextNodes);   
+                }
+                else if (_currentDialogueContainer.EventNodes.TryGetValue(id, out DialogueEventNode dialogueEventNode))
+                {
+                    OnEventOccurred?.Invoke(new DialogueEvent(dialogueEventNode));
+                    GetNextNodes(dialogueEventNode.NextNodes);   
                 }
             }
         }

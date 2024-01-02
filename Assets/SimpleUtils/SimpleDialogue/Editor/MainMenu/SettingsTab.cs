@@ -4,6 +4,7 @@ using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.Conditions.ConditionLoader;
 using SimpleUtils.SimpleDialogue.Editor.Settings;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -84,12 +85,14 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             var load = _root.Q<Button>("load");
             load.clicked += () =>
             {
+                Undo.RecordObject(_globalValues, "Conditions load");
                 var conditionValues = _saveLoadProvider.Load();
                 _globalValues.ConditionValues.Clear();
                 foreach (var conditionValue in conditionValues)
                 {
                     _globalValues.ConditionValues.Add(conditionValue);
                 }
+                EditorUtility.SetDirty(_globalValues);
                 OnGlobalValuesChanged?.Invoke();
             };
             tabButton.clicked += () => OnViewSelected?.Invoke(this); 

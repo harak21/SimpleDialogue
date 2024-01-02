@@ -5,6 +5,14 @@
     --selection-color: chartreuse;
 }
 
+.hidden{
+    visibility: hidden;
+}
+
+.unity-list-view__empty-label {
+    display: none;
+}
+
 .unity-button{
     background-color: var(--blackishblue-color);
     border-top-color: var(--utility-color);

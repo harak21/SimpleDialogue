@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
-using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
@@ -12,6 +11,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
     internal class GlobalValuesTab : IMainMenuTabView
     {
         public event Action<IMainMenuTabView> OnViewSelected;
+        public event Action<string> OnRecordModifiedObject; 
+        public event Action OnMakeModifiedObjectDirty; 
         
         private readonly GlobalValues _globalValues;
         private readonly VisualTreeAsset _itemTemplate;
@@ -88,11 +89,23 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             var description = e.Q<TextField>("description");
             description.SetValueWithoutNotify(_listViewItemsSource[i].Description);
             description.RegisterValueChangedCallback(
-                evt => _listViewItemsSource[i].Description = evt.newValue);
+                evt =>
+                {
+                    OnRecordModifiedObject?.Invoke("Change description");
+                    _listViewItemsSource[i].Description = evt.newValue;
+                    OnMakeModifiedObjectDirty?.Invoke();
+                });
 
             var value = e.Q<IntegerField>("value");
             value.SetValueWithoutNotify(_listViewItemsSource[i].Value);
-            value.RegisterValueChangedCallback(evt => _listViewItemsSource[i].Value = evt.newValue);
+            value.RegisterValueChangedCallback(evt =>
+            {
+                OnRecordModifiedObject?.Invoke("Change value");
+                _listViewItemsSource[i].Value = evt.newValue;
+                OnMakeModifiedObjectDirty?.Invoke();
+            });
+
+            e.tooltip = _listViewItemsSource[i].ID.ToString();
         }
     }
 }

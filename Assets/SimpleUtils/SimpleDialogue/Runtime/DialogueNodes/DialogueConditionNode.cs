@@ -48,8 +48,8 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             _isConditionQualify = condition switch
             {
                 DialogCondition.Equal => currentValue == referenceValue,
-                DialogCondition.Great => currentValue < referenceValue,
-                DialogCondition.Less => currentValue > referenceValue,
+                DialogCondition.Great => currentValue > referenceValue,
+                DialogCondition.Less => currentValue < referenceValue,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services
 {
-    public static class AllServices
+    internal static class AllServices
     {
         private static readonly Dictionary<Type, IService> Container = new();
 

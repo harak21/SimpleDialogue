@@ -10,7 +10,7 @@ using UnityEngine;
 namespace SimpleUtils.SimpleDialogue.Runtime.Containers
 {
     [CreateAssetMenu(fileName = "[Name]DialogContainer", menuName = "SimpleFlow/DialogContainer")]
-    internal class DialogueContainer : ScriptableObject, IDialogueContainer, IConditionValuesProvider
+    public class DialogueContainer : ScriptableObject, IDialogueContainer, IConditionValuesProvider
     {
         [SerializeField] private int dialogueID;
         [SerializeField] private int firstNodeID;
@@ -30,7 +30,7 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
 
         public SimpleSerializedDictionary<DialoguePhraseNode> DialogueNodes => dialogueNodes;
         public SimpleSerializedDictionary<DialogueConditionNode> ConditionNodes => conditionNodes;
-        public SimpleSerializedDictionary<DialogueEventNode> EventNodes { get; }
+        public SimpleSerializedDictionary<DialogueEventNode> EventNodes => eventNodes;
         public SimpleSerializedDictionary<ConditionValue> ConditionValues => conditionValues;
         public SimpleSerializedDictionary<Actor> Actors => actors;
 

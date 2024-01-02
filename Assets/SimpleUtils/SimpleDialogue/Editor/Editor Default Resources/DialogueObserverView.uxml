@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" MemoryProfiler="Unity.MemoryProfiler.Editor" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/SimpleUtils/SimpleDialogue/Editor/Editor%20Default%20Resources/GraphViewStyle.uss?fileID=7433441132597879392&amp;guid=72873c16cd3752e44886f809c0c4f560&amp;type=3#GraphViewStyle" />
+    <ui:VisualElement name="root" style="flex-grow: 1; padding-top: 5px; padding-bottom: 5px; padding-right: 20px; padding-left: 20px; background-color: rgb(27, 32, 44); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
+        <ui:Label text="DIALOGUE EVENT OBSERVER" display-tooltip-when-elided="true" class="label-font20" style="margin-bottom: 25px; flex-shrink: 1;" />
+        <ui:DropdownField label="Dialogue" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="dialogue" />
+        <ui:DropdownField label="Event" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="event" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3715e677bcda49c29ec1b6e8f88c98cd, type: 3}
+  m_Name: RedNPCFirstScene
+  m_EditorClassIdentifier: 
+  dialogueID: 1407092126
+  firstNodeID: 1266260212
+  dialogueNodes:
+    keys: f498794b5ca48955faa21d5dcfa785fdcd500e45
+    values:
+    - id: 1266260212
+      nextNodes: ded3a3685c47f87c
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 31789170688
+      actorID: 1652030433
+    - id: 1435083868
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 47584919552
+      actorID: 1652030433
+    - id: 1562223354
+      nextNodes: f618fd33
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 725375387189248
+      actorID: 854493062
+    - id: -41572401
+      nextNodes: cd500e45
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 738819100393472
+      actorID: 854493062
+    - id: 1158566093
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 47584919552
+      actorID: 1652030433
+  conditionNodes:
+    keys: 57b2a154c8649723ded3a3685c47f87c
+    values:
+    - id: 1419883095
+      conditionID: -1143448856
+      referenceValue: 0
+      nextNodes: faa21d5d
+      condition: 0
+    - id: 597124296
+      conditionID: -1143448856
+      referenceValue: 0
+      nextNodes: 5ca48955
+      condition: 1
+    - id: 1755567070
+      conditionID: 7456
+      referenceValue: 0
+      nextNodes: cfa785fd
+      condition: 0
+    - id: 2096645980
+      conditionID: 7456
+      referenceValue: 1
+      nextNodes: c864972357b2a154
+      condition: 0
+  actors:
+    keys: e1fb77628687ee32
+    values:
+    - id: 1652030433
+      actorName: Player
+    - id: 854493062
+      actorName: RedNpc
+  conditionValues:
+    keys: e85ad8bb9085f15d
+    values:
+    - <ID>k__BackingField: -1143448856
+      <Description>k__BackingField: talked to red
+      <Value>k__BackingField: 0
+    - <ID>k__BackingField: 1576109456
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 0
+  eventNodes:
+    keys: f618fd33
+    values:
+    - id: 872225014
+      nextNodes: 5ca48955
+      eventName: talked to red
+  nodeData:
+  - nodeID: 1266260212
+    position: {x: -1793.1483, y: 25.380032}
+  - nodeID: 872225014
+    position: {x: -506, y: 202}
+  - nodeID: 1435083868
+    position: {x: -216.9999, y: -163.99995}
+  - nodeID: 1562223354
+    position: {x: -786, y: 210}
+  - nodeID: 1419883095
+    position: {x: -1124, y: 193}
+  - nodeID: 597124296
+    position: {x: -1132, y: -172}
+  - nodeID: 1755567070
+    position: {x: -1433.0005, y: 417.00006}
+  - nodeID: -41572401
+    position: {x: -1148, y: 425}
+  - nodeID: 2096645980
+    position: {x: -1433.0002, y: 14.77}
+  - nodeID: 1158566093
+    position: {x: -778, y: 433}
+  actorsData:
+  - actorID: 1652030433
+    tables:
+    - {fileID: 11400000, guid: 7d6248f52f7662d4e8ee6490ab2c4101, type: 2}
+  - actorID: 854493062
+    tables:
+    - {fileID: 11400000, guid: a8643f833a7b5f14fa25e5079893767c, type: 2}

@@ -6,12 +6,22 @@ using UnityEngine.UIElements;
 namespace Samples.SimpleUtils.SimpleDialogue.Scripts.UI
 {
     [RequireComponent(typeof(UIDocument))]
-    public class MainHud : MonoBehaviour
+    internal class MainHud : MonoBehaviour
     {
         public event Action<int> OnLoadScene;
         
         [SerializeField] private UIDocument uiDocument;
         private readonly List<Button> _sceneLoadButtons = new();
+
+        public void Hide()
+        {
+            uiDocument.rootVisualElement.AddToClassList("hidden");
+        }
+
+        public void Show()
+        {
+            uiDocument.rootVisualElement.RemoveFromClassList("hidden");
+        }
 
         private void Reset()
         {
@@ -39,8 +49,12 @@ namespace Samples.SimpleUtils.SimpleDialogue.Scripts.UI
         private void LoadScene(ClickEvent clickEvent, Button button)
         {
             var sceneIndex = _sceneLoadButtons.IndexOf(button);
-            Debug.Log(sceneIndex);
             OnLoadScene?.Invoke(sceneIndex);
+        }
+        
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
         }
     }
 }
