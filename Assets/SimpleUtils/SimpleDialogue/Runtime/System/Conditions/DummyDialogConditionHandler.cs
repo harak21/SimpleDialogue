@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SimpleUtils.SimpleDialogue.Runtime.System
+namespace SimpleUtils.SimpleDialogue.Runtime.System.Conditions
 {
     public class DummyDialogConditionHandler : IDialogueConditionHandler
     {

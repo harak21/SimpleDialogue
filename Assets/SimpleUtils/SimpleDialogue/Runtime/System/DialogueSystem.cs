@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
+using SimpleUtils.SimpleDialogue.Runtime.System.Conditions;
+using SimpleUtils.SimpleDialogue.Runtime.System.Data;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -10,6 +12,9 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
 {
     public class DialogueSystem
     {
+        /// <summary>
+        /// event, which is called when an event is performed in the current dialog
+        /// </summary>
         public event Action<DialogueEvent> OnEventOccurred;
         
         private readonly IDialogueConditionHandler _dialogueConditionHandler;
@@ -20,10 +25,20 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
 
         private readonly HashSet<DialoguePhraseNode> _currentPhraseNodes = new();
 
+        /// <summary>
+        /// constructor that accepts the dialog download service
+        /// </summary>
+        /// <param name="loadDialogueService">dialog loading service</param>
         public DialogueSystem(ILoadDialogueService loadDialogueService) : this(loadDialogueService, new DummyDialogConditionHandler())
         {
         }
 
+        /// <summary>
+        /// constructor that accepts dialog loading service and condition state loading/saving service.
+        /// use it if you need this functionality
+        /// </summary>
+        /// <param name="loadDialogueService">dialog loading service</param>
+        /// <param name="dialogueConditionHandler">stores the current values of the conditions</param>
         public DialogueSystem(ILoadDialogueService loadDialogueService, IDialogueConditionHandler dialogueConditionHandler)
         {
             _dialogueConditionHandler = dialogueConditionHandler;
@@ -31,6 +46,13 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
             _stringDatabase = LocalizationSettings.Instance.GetStringDatabase();
         }
 
+        /// <summary>
+        /// try to initialize a new dialog
+        /// </summary>
+        /// <param name="dialogID">dialog ID</param>
+        /// <returns>returns the first phrases of the dialog,
+        /// or an empty list if no dialog is found/the first phrase of the dialog is not found.
+        /// currently, the starting node will be discarded, regardless of its type</returns>
         public async Task<List<Phrase>> TryInitNewDialogue(int dialogID)
         {
             _currentDialogueContainer = null;
@@ -54,11 +76,16 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
             return GetNextPhrases(firstNodeID);
         }
 
-        public List<Phrase> GetNextPhrases(int previousPhraseID)
+        /// <summary>
+        /// returns the phrases that follow the current one
+        /// </summary>
+        /// <param name="currentPhraseID">the id of the current phrase, for which the following will be selected</param>
+        /// <returns></returns>
+        public List<Phrase> GetNextPhrases(int currentPhraseID)
         {
             List<Phrase> phrases = new();
             
-            if (!_currentDialogueContainer.DialogueNodes.TryGetValue(previousPhraseID, out var previousNode))
+            if (!_currentDialogueContainer.DialogueNodes.TryGetValue(currentPhraseID, out var previousNode))
                 return phrases;
             
             _currentPhraseNodes.Clear();

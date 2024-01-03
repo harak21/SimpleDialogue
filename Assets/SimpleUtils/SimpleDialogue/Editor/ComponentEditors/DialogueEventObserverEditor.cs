@@ -58,7 +58,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.ComponentEditors
         {
             if (currentDialogue != null)
             {
-                _currentEvents = currentDialogue.EventNodes.GetValues();
+                _currentEvents = currentDialogue.EventNodes.Values.ToList();
                 var eventNodes = _currentEvents;
                 _eventDropdown.choices = eventNodes.Select(e => e.EventName).ToList();
                 _eventDropdown.index = eventNodes.FindIndex(e => e.ID == _eventObserver.EventID);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
@@ -37,7 +38,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
             _listView.viewDataKey = "GlobalValuesListView";
             _listView.makeItem = MakeItem;
             _listView.bindItem = BindItem;
-            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.GetValues();
+            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.Values.ToList();
             _listView.selectionType = SelectionType.Single;
             
             _listView.reorderable = false;
@@ -73,7 +74,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
 
         public void Update()
         {
-            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.GetValues();
+            _listView.itemsSource = _listViewItemsSource = _globalValues.ConditionValues.Values.ToList();
             _listView.RefreshItems();
         }
 

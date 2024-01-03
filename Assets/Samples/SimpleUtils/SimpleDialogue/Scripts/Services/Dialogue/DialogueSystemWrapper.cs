@@ -5,6 +5,8 @@ using Samples.SimpleUtils.SimpleDialogue.Scripts.Services.ResourcesLoader;
 using Samples.SimpleUtils.SimpleDialogue.Scripts.UI;
 using SimpleUtils.SimpleDialogue.Runtime.Components;
 using SimpleUtils.SimpleDialogue.Runtime.System;
+using SimpleUtils.SimpleDialogue.Runtime.System.Conditions;
+using SimpleUtils.SimpleDialogue.Runtime.System.Data;
 
 namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue
 {

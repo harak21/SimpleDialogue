@@ -80,7 +80,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
         private void ConstructButtons(Button tabButton)
         {
             var save = _root.Q<Button>("save");
-            save.clicked += () => _saveLoadProvider.Save(_globalValues.ConditionValues.GetValues());
+            save.clicked += () => _saveLoadProvider.Save(_globalValues.ConditionValues.Values.ToList());
             
             var load = _root.Q<Button>("load");
             load.clicked += () =>
@@ -90,7 +90,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.MainMenu
                 _globalValues.ConditionValues.Clear();
                 foreach (var conditionValue in conditionValues)
                 {
-                    _globalValues.ConditionValues.Add(conditionValue);
+                    _globalValues.AddNewConditionValue(conditionValue);
                 }
                 EditorUtility.SetDirty(_globalValues);
                 OnGlobalValuesChanged?.Invoke();

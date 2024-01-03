@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
@@ -40,7 +41,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
 
         public void UpdateList()
         {
-            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.Values.ToList();
             _listView.RefreshItems();
         }
 
@@ -48,7 +49,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         {
             _listView.makeItem = MakeItem;
             _listView.bindItem = BindItem;
-            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.Values.ToList();
             _listView.selectionType = SelectionType.Single;
             _listView.reorderable = false;
         }

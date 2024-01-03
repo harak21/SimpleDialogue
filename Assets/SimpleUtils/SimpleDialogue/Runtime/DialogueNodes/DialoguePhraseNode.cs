@@ -11,7 +11,6 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
         [SerializeField] private List<int> nextNodes = new();
         [SerializeField] private string tableKey;
         [SerializeField] private long entryKey;
-        //[SerializeField] private Actor actor;
         [SerializeField] private int actorID;
 
         public int ID
@@ -22,6 +21,9 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
 
         public IEnumerable<int> NextNodes => nextNodes;
 
+        /// <summary>
+        /// value key in the localization table
+        /// </summary>
         public long EntryKey
         {
             get => entryKey; 
@@ -34,6 +36,9 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             set => actorID = value;
         }
 
+        /// <summary>
+        /// localization table key
+        /// </summary>
         public string TableKey
         {
             get => tableKey;

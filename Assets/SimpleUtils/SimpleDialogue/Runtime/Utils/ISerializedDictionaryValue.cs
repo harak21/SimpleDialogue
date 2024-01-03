@@ -1,6 +1,6 @@
 ﻿namespace SimpleUtils.SimpleDialogue.Runtime.Utils
 {
-    public interface ISerializedDictionaryValue
+    internal interface ISerializedDictionaryValue
     {
         public int ID { get; set; }
     }

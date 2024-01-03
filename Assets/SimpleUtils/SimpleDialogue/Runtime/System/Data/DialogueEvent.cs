@@ -1,7 +1,6 @@
 ﻿using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
-using NotImplementedException = System.NotImplementedException;
 
-namespace SimpleUtils.SimpleDialogue.Runtime.System
+namespace SimpleUtils.SimpleDialogue.Runtime.System.Data
 {
     public class DialogueEvent
     {

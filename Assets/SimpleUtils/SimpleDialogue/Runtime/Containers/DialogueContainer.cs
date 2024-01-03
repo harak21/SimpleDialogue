@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
@@ -28,11 +27,11 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
             set => firstNodeID = value;
         }
 
-        public SimpleSerializedDictionary<DialoguePhraseNode> DialogueNodes => dialogueNodes;
-        public SimpleSerializedDictionary<DialogueConditionNode> ConditionNodes => conditionNodes;
-        public SimpleSerializedDictionary<DialogueEventNode> EventNodes => eventNodes;
-        public SimpleSerializedDictionary<ConditionValue> ConditionValues => conditionValues;
-        public SimpleSerializedDictionary<Actor> Actors => actors;
+        public Dictionary<int, DialoguePhraseNode> DialogueNodes => dialogueNodes;
+        public Dictionary<int, DialogueConditionNode> ConditionNodes => conditionNodes;
+        public Dictionary<int, DialogueEventNode> EventNodes => eventNodes;
+        public Dictionary<int, ConditionValue> ConditionValues => conditionValues;
+        public Dictionary<int, Actor> Actors => actors;
 
 #if UNITY_EDITOR
         private void Reset()
@@ -46,7 +45,7 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
         internal List<DialogueNodeData> NodeData => nodeData;
         internal List<ActorData> ActorsData => actorsData;
 
-        internal List<Actor> ActorsList => Actors.GetValues();
+        internal List<Actor> ActorsList => actors.GetValues();
         internal List<DialoguePhraseNode> PhrasesList => dialogueNodes.GetValues();
         internal List<DialogueConditionNode> ConditionsList => conditionNodes.GetValues();
         internal List<ConditionValue> ConditionValuesList => conditionValues.GetValues();

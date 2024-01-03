@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SimpleUtils.SimpleDialogue.Runtime.System;
+using SimpleUtils.SimpleDialogue.Runtime.System.Conditions;
 using UnityEngine;
 
 namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue

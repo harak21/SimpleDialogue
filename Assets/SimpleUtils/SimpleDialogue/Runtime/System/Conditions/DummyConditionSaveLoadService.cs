@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SimpleUtils.SimpleDialogue.Runtime.System
+namespace SimpleUtils.SimpleDialogue.Runtime.System.Conditions
 {
     internal class DummyConditionSaveLoadService : IConditionSaveLoadService
     {
