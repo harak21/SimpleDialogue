@@ -10,7 +10,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
 {
     internal class PhrasesListHandler
     {
-        public event Action<SharedTableData.SharedTableEntry, Vector2, string> OnNodeCreate;
+        public event Action<SharedTableData.SharedTableEntry, Vector2, Guid> OnNodeCreate;
         
         private readonly VisualTreeAsset _itemViewTemplate;
         private readonly ListView _listView;
@@ -64,7 +64,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
                     _currentPhrases.Add(new EntryData()
                     {
                         SharedTableEntry = tableEntry,
-                        TableKey = sharedTable.TableCollectionName
+                        TableKey = sharedTable.TableCollectionNameGuid
                     });
                 }
             }
@@ -85,7 +85,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
             return item;
         }
 
-        private void NodeCreate(long longKey, string stringKey, Vector2 position)
+        private void NodeCreate(long longKey, Guid guidKey, Vector2 position)
         {
             var phrase = _currentPhrases.Find(p => p.SharedTableEntry.Id ==longKey);
             if (phrase is null)

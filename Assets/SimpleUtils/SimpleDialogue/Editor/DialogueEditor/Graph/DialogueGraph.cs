@@ -17,7 +17,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
         public event Action<List<DialogueNodeView>> OnNodesRemoved;
         public event Func<Vector2, (DialogueConditionNode, ConditionValue)> OnNewConditionNodeCreate;
         public event Action OnConditionValueChanged;
-        public event Action<DialogueConditionNode> OnFirstNodeChanged;
+        public event Action<IDialogueNode> OnFirstNodeChanged;
 
         private readonly DialogueEditorWindow _currentWindow;
         private readonly List<DialogueNodeView> _dialogGraphNodeViews = new();
@@ -166,8 +166,8 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
             ports.ForEach(port =>
             {
                 if (startPort != port
-                    && startPort.GetFirstAncestorOfType<PhraseNodeView>() !=
-                    port.GetFirstAncestorOfType<PhraseNodeView>()
+                    && startPort.GetFirstAncestorOfType<DialogueNodeView>() !=
+                    port.GetFirstAncestorOfType<DialogueNodeView>()
                     && startPort.direction != port.direction)
                 {
                     compatiblePorts.Add(port);
@@ -205,12 +205,12 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph
 
         private void SetAsStartNode(DropdownMenuAction action)
         {
-            var node = selection.Find(s => s is ConditionNodeView);
+            var node = selection.Find(s => s is DialogueNodeView);
             
-            if (node is not ConditionNodeView nodeView)
+            if (node is not DialogueNodeView nodeView)
                 return;
             
-            OnFirstNodeChanged?.Invoke(nodeView.ConditionNode);
+            OnFirstNodeChanged?.Invoke(nodeView.DialogueNode);
         }
 
         private void OnGraphChanged()

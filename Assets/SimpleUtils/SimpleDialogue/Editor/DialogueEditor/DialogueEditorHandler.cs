@@ -184,7 +184,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             }
         }
 
-        private void CreatePhraseNode(SharedTableData.SharedTableEntry entry, Vector2 pos, string tableKey, Actor actor)
+        private void CreatePhraseNode(SharedTableData.SharedTableEntry entry, Vector2 pos, Guid tableKey, Actor actor)
         {
             var id = Guid.NewGuid().GetHashCode();
             var node = new DialoguePhraseNode(id, entry.Id, tableKey, actor);
@@ -205,7 +205,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             
             Save();
         }
-        
+
         private void CreateEventNode(Vector2 pos)
         {
             var id = Guid.NewGuid().GetHashCode();
@@ -221,7 +221,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         {
             foreach (var node in _dialogueContainer.PhrasesList)
             {
-                var stringTableCollection = LocalizationEditorSettings.GetStringTableCollection(node.TableName);
+                var stringTableCollection = LocalizationEditorSettings.GetStringTableCollection(new Guid(node.TableKey));
                 var sharedTableEntry = stringTableCollection.SharedData.GetEntry(node.EntryKey);
                 if (sharedTableEntry is null)
                 {
@@ -314,7 +314,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
                 return (node, localCondition);
             };
             _graph.OnConditionValueChanged += () => _localConditionValuesView.Update();
-            _graph.OnFirstNodeChanged += node => _dialogueContainer.FirstNode = node;
+            _graph.OnFirstNodeChanged += node => _dialogueContainer.FirstNodeID = node.ID;
         }
 
         public void Clear()

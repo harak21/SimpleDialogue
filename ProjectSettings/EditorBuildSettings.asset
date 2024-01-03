@@ -4,7 +4,19 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Samples/SimpleUtils/SimpleDialogue/Scenes/BootstrapScene.unity
+    guid: df38f46f16c41eb40a097adc253effc6
+  - enabled: 0
+    path: Assets/Samples/SimpleUtils/SimpleDialogue/Scenes/MainScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Samples/SimpleUtils/SimpleDialogue/Scenes/FirstScene.unity
+    guid: 2d8e7c58c68df32498d5a2004c276e2c
+  - enabled: 0
+    path: Assets/Samples/SimpleUtils/SimpleDialogue/Scenes/SecondScene.unity
+    guid: 6904be367b3b3e84e8a60acb581a03b1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 0c6f23a9febda1c42a3d8e203ed0f3e5, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 83672e6d8c0874c4187bf86a8a2583d1, type: 2}

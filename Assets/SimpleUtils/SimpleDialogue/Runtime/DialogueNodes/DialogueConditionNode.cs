@@ -23,14 +23,23 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             set => id = value;
         }
 
+        /// <summary>
+        /// the id of the condition that will affect the state of the node
+        /// </summary>
         public int ConditionID => conditionID;
 
+        /// <summary>
+        /// condition defining the state of the node
+        /// </summary>
         internal DialogCondition Condition
         {
             get => condition;
             set => condition = value;
         }
 
+        /// <summary>
+        /// value to which the current value of the condition will be compared
+        /// </summary>
         internal int ReferenceValue
         {
             get => referenceValue;
@@ -43,23 +52,28 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             conditionID = conditionValue.ID;
         }
 
+        /// <summary>
+        /// set the current value of the condition. It will be compared to the reference value.
+        /// e.g. if the state is greater than, the condition will be executed if the current value is greater than the reference value
+        /// </summary>
+        /// <param name="currentValue">current condition value </param>
         public void SetCurrentConditionValue(int currentValue)
         {
             _isConditionQualify = condition switch
             {
                 DialogCondition.Equal => currentValue == referenceValue,
-                DialogCondition.Great => currentValue < referenceValue,
-                DialogCondition.Less => currentValue > referenceValue,
+                DialogCondition.Great => currentValue > referenceValue,
+                DialogCondition.Less => currentValue < referenceValue,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
 
-        public void AddNextNode(int nextNodeID) 
+        internal void AddNextNode(int nextNodeID) 
         {
             nextNodes.Add(nextNodeID);
         }
 
-        public void RemoveNextNode(int nextNodeID)
+        internal void RemoveNextNode(int nextNodeID)
         {
             nextNodes.Remove(nextNodeID); 
         }

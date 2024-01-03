@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.Utils;
 using UnityEditor;
@@ -11,7 +12,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.Conditions
     {
         [FormerlySerializedAs("conditionNodes")] [SerializeField] private SimpleSerializedDictionary<ConditionValue> conditionValues = new();
 
-        public SimpleSerializedDictionary<ConditionValue> ConditionValues => conditionValues;
+        public Dictionary<int, ConditionValue> ConditionValues => conditionValues;
 
         public void AddNewConditionValue(ConditionValue conditionValue)
         {

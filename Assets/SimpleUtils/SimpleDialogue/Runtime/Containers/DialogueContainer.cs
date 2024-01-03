@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
@@ -9,33 +9,43 @@ using UnityEngine;
 namespace SimpleUtils.SimpleDialogue.Runtime.Containers
 {
     [CreateAssetMenu(fileName = "[Name]DialogContainer", menuName = "SimpleFlow/DialogContainer")]
-    internal class DialogueContainer : ScriptableObject, IDialogueContainer, IConditionValuesProvider
+    public class DialogueContainer : ScriptableObject, IDialogueContainer, IConditionValuesProvider
     {
-        [SerializeField] private DialogueConditionNode firstNode;
+        [SerializeField] private int dialogueID;
+        [SerializeField] private int firstNodeID;
         [SerializeField] private SimpleSerializedDictionary<DialoguePhraseNode> dialogueNodes = new();
         [SerializeField] private SimpleSerializedDictionary<DialogueConditionNode> conditionNodes = new();
         [SerializeField] private SimpleSerializedDictionary<Actor> actors = new();
         [SerializeField] private SimpleSerializedDictionary<ConditionValue> conditionValues = new();
         [SerializeField] private SimpleSerializedDictionary<DialogueEventNode> eventNodes = new();
-        
-        public SimpleSerializedDictionary<DialoguePhraseNode> DialogueNodes => dialogueNodes;
-        public SimpleSerializedDictionary<DialogueConditionNode> ConditionNodes => conditionNodes;
-        public SimpleSerializedDictionary<ConditionValue> ConditionValues => conditionValues;
-        public SimpleSerializedDictionary<Actor> Actors => actors;
-        public DialogueConditionNode FirstNode
+
+        public int DialogueID => dialogueID;
+
+        public int FirstNodeID
         {
-            get => firstNode;
-            set => firstNode = value;
+            get => firstNodeID;
+            set => firstNodeID = value;
         }
 
+        public Dictionary<int, DialoguePhraseNode> DialogueNodes => dialogueNodes;
+        public Dictionary<int, DialogueConditionNode> ConditionNodes => conditionNodes;
+        public Dictionary<int, DialogueEventNode> EventNodes => eventNodes;
+        public Dictionary<int, ConditionValue> ConditionValues => conditionValues;
+        public Dictionary<int, Actor> Actors => actors;
+
 #if UNITY_EDITOR
+        private void Reset()
+        {
+            dialogueID = Guid.NewGuid().GetHashCode();
+        }
+
         [SerializeField] private List<DialogueNodeData> nodeData = new();
         [SerializeField] private List<ActorData> actorsData = new();
 
         internal List<DialogueNodeData> NodeData => nodeData;
         internal List<ActorData> ActorsData => actorsData;
 
-        internal List<Actor> ActorsList => Actors.GetValues();
+        internal List<Actor> ActorsList => actors.GetValues();
         internal List<DialoguePhraseNode> PhrasesList => dialogueNodes.GetValues();
         internal List<DialogueConditionNode> ConditionsList => conditionNodes.GetValues();
         internal List<ConditionValue> ConditionValuesList => conditionValues.GetValues();
@@ -44,6 +54,11 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Containers
         internal void AddNode(IDialogueNode phraseNode)
         {
             Undo.RecordObject(this, "Node added");
+
+            if (PhrasesList.Count == 0 && ConditionsList.Count == 0 && EventsList.Count == 0)
+            {
+                FirstNodeID = phraseNode.ID;
+            }
             
             switch (phraseNode)
             {

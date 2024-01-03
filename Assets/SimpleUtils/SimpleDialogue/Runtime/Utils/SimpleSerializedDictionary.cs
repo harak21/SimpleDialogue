@@ -6,13 +6,12 @@ using UnityEngine;
 namespace SimpleUtils.SimpleDialogue.Runtime.Utils
 {
     [Serializable]
-    public class SimpleSerializedDictionary<TValue> : ISerializationCallbackReceiver where TValue : ISerializedDictionaryValue
+    internal class SimpleSerializedDictionary<TValue> : ISerializationCallbackReceiver where TValue : ISerializedDictionaryValue
     {
         [SerializeField] private List<int> keys = new();
         [SerializeField] private List<TValue> values = new();
 
         private Dictionary<int, TValue> _dictionary = new();
-
 
         public TValue GetValueAtIndex(int i)
         {
@@ -77,6 +76,11 @@ namespace SimpleUtils.SimpleDialogue.Runtime.Utils
 
             for(int i = 0; i < keys.Count; i++)
                 _dictionary.Add(keys[i], values[i]);
+        }
+        
+        public static implicit operator Dictionary<int, TValue>(SimpleSerializedDictionary<TValue> simpleSerializedDictionary)
+        {
+            return simpleSerializedDictionary._dictionary;
         }
     }
 }

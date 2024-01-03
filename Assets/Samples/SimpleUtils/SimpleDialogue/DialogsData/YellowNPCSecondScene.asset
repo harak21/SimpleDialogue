@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3715e677bcda49c29ec1b6e8f88c98cd, type: 3}
+  m_Name: YellowNPCSecondScene
+  m_EditorClassIdentifier: 
+  dialogueID: -690972124
+  firstNodeID: -1949974065
+  dialogueNodes:
+    keys: cfc1c58bb25a2d2b177b12c1c5eea61798ded528febdb46c9e0b27b0
+    values:
+    - id: -1949974065
+      nextNodes: 39e0fb88
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 31789170688
+      actorID: 1626847229
+    - id: 724392626
+      nextNodes: 177b12c1c5eea617
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 796867588276224
+      actorID: -321594825
+    - id: -1055753449
+      nextNodes: 98ded528
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 6063609717735424
+      actorID: 1626847229
+    - id: 396816069
+      nextNodes: 98ded528
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 6063775447269376
+      actorID: 1626847229
+    - id: 685104792
+      nextNodes: 76e9c604
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 797493164523520
+      actorID: -321594825
+    - id: 1823784446
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 8984739840
+      actorID: 1626847229
+    - id: -1339618402
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 47584919552
+      actorID: 1626847229
+  conditionNodes:
+    keys: 39e0fb88
+    values:
+    - id: -1996758983
+      conditionID: 7456
+      referenceValue: 0
+      nextNodes: b25a2d2b
+      condition: 0
+  actors:
+    keys: fdb7f76037dad4ec
+    values:
+    - id: 1626847229
+      actorName: Player
+    - id: -321594825
+      actorName: YellowNpc
+  conditionValues:
+    keys: 
+    values: []
+  eventNodes:
+    keys: 76e9c604
+    values:
+    - id: 80144758
+      nextNodes: febdb46c9e0b27b0
+      eventName: SecondSceneComplete
+  nodeData:
+  - nodeID: -1949974065
+    position: {x: -1395, y: 46}
+  - nodeID: -1996758983
+    position: {x: -1073.29, y: 30.96752}
+  - nodeID: 724392626
+    position: {x: -735, y: 39}
+  - nodeID: -1055753449
+    position: {x: -416, y: 1}
+  - nodeID: 396816069
+    position: {x: -408, y: 129}
+  - nodeID: 685104792
+    position: {x: -117, y: 62}
+  - nodeID: 80144758
+    position: {x: 187, y: 56}
+  - nodeID: 1823784446
+    position: {x: 521, y: 9}
+  - nodeID: -1339618402
+    position: {x: 521, y: 137}
+  actorsData:
+  - actorID: 1626847229
+    tables:
+    - {fileID: 11400000, guid: 7d6248f52f7662d4e8ee6490ab2c4101, type: 2}
+  - actorID: -321594825
+    tables:
+    - {fileID: 11400000, guid: a8643f833a7b5f14fa25e5079893767c, type: 2}

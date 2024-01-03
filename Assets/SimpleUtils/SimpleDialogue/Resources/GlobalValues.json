@@ -1,12 +1,12 @@
 [
   {
     "ID": 898,
-    "Description": "test 898",
-    "Value": 1
+    "Description": "PlayerLvl",
+    "Value": 0
   },
   {
     "ID": 7456,
-    "Description": "test 7456",
-    "Value": 1
+    "Description": "SecondLevelComplete",
+    "Value": 0
   }
 ]

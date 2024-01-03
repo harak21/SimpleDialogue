@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7a902de6ff40d3988cde56da52d8ba, type: 3}
   m_Name: GlobalConditionsContainer
   m_EditorClassIdentifier: 
-  conditionNodes:
+  conditionValues:
     keys: 82030000201d0000
     values:
     - <ID>k__BackingField: 898
-      <Description>k__BackingField: test 898
-      <Value>k__BackingField: 1
+      <Description>k__BackingField: PlayerLvl
+      <Value>k__BackingField: 0
     - <ID>k__BackingField: 7456
-      <Description>k__BackingField: test 7456
-      <Value>k__BackingField: 1
+      <Description>k__BackingField: SecondLevelComplete
+      <Value>k__BackingField: 0

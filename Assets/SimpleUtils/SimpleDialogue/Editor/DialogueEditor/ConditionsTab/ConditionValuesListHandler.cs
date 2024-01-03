@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
@@ -40,7 +41,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
 
         public void UpdateList()
         {
-            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.Values.ToList();
             _listView.RefreshItems();
         }
 
@@ -48,7 +49,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         {
             _listView.makeItem = MakeItem;
             _listView.bindItem = BindItem;
-            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.GetValues();
+            _listView.itemsSource = _conditionValues = _conditionValuesProvider.ConditionValues.Values.ToList();
             _listView.selectionType = SelectionType.Single;
             _listView.reorderable = false;
         }
@@ -63,11 +64,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         private void BindItem(VisualElement e, int i)
         {
             ((DraggableListItem)e).Bind(_conditionValues[i].ID,
-                string.Empty,
+                Guid.Empty,
                 _conditionValues[i].Description);
         }
         
-        private void NodeCreate(long longKey, string stringKey, Vector2 position)
+        private void NodeCreate(long longKey, Guid guidKey, Vector2 position)
         {
             var condition = _conditionValues.Find(n => n.ID == longKey);
             if (condition is null)

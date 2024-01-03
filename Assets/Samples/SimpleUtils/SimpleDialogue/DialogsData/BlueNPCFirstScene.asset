@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3715e677bcda49c29ec1b6e8f88c98cd, type: 3}
+  m_Name: BlueNPCFirstScene
+  m_EditorClassIdentifier: 
+  dialogueID: -1545724079
+  firstNodeID: -1883640970
+  dialogueNodes:
+    keys: b8e2aab176ebb98f4eb5144f301979ea184bd405e4122eba734468df
+    values:
+    - id: -1314200904
+      nextNodes: 
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 66606088192
+      actorID: 1864967561
+    - id: -1883640970
+      nextNodes: d94e20992b3473b0
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 31789170688
+      actorID: 591404628
+    - id: 1326757198
+      nextNodes: 301979ea184bd405
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 7932415066112
+      actorID: 1864967561
+    - id: -361162448
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 8984739840
+      actorID: 591404628
+    - id: 97798936
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 47584919552
+      actorID: 591404628
+    - id: -1171385628
+      nextNodes: 734468df
+      tableKey: a8643f83-3a7b-5f14-fa25-e5079893767c
+      entryKey: 738819100393472
+      actorID: 1864967561
+    - id: -546814861
+      nextNodes: 
+      tableKey: 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
+      entryKey: 47584919552
+      actorID: 591404628
+  conditionNodes:
+    keys: 4bbc62d117569c12d94e20992b3473b0
+    values:
+    - id: -782058421
+      conditionID: 1519268825
+      referenceValue: 1
+      nextNodes: 4eb5144f
+      condition: 0
+    - id: 312235543
+      conditionID: 1519268825
+      referenceValue: 0
+      nextNodes: b8e2aab1
+      condition: 0
+    - id: -1725935911
+      conditionID: 7456
+      referenceValue: 1
+      nextNodes: 4bbc62d117569c12
+      condition: 0
+    - id: -1334627285
+      conditionID: 7456
+      referenceValue: 0
+      nextNodes: e4122eba
+      condition: 0
+  actors:
+    keys: 541e40238925296f
+    values:
+    - id: 591404628
+      actorName: Player
+    - id: 1864967561
+      actorName: BlueNpc
+  conditionValues:
+    keys: d9338e5a70003ba2da3863b85f1ce767
+    values:
+    - <ID>k__BackingField: 1519268825
+      <Description>k__BackingField: talked to red
+      <Value>k__BackingField: 0
+    - <ID>k__BackingField: -1573191568
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 0
+    - <ID>k__BackingField: -1201456934
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 0
+    - <ID>k__BackingField: 1743199327
+      <Description>k__BackingField: Condition description
+      <Value>k__BackingField: 0
+  eventNodes:
+    keys: 
+    values: []
+  nodeData:
+  - nodeID: -1883640970
+    position: {x: -1581, y: 313.5}
+  - nodeID: -782058421
+    position: {x: -741, y: -5}
+  - nodeID: 312235543
+    position: {x: -741, y: 239}
+  - nodeID: -1314200904
+    position: {x: -427, y: 259}
+  - nodeID: 1326757198
+    position: {x: -424, y: 10}
+  - nodeID: -361162448
+    position: {x: -123, y: -37}
+  - nodeID: 97798936
+    position: {x: -123, y: 76.5}
+  - nodeID: -1725935911
+    position: {x: -1172, y: 144.60004}
+  - nodeID: -1334627285
+    position: {x: -1172, y: 534.775}
+  - nodeID: -1171385628
+    position: {x: -732.99994, y: 548}
+  - nodeID: -546814861
+    position: {x: -419, y: 556}
+  actorsData:
+  - actorID: 591404628
+    tables:
+    - {fileID: 11400000, guid: 7d6248f52f7662d4e8ee6490ab2c4101, type: 2}
+  - actorID: 1864967561
+    tables:
+    - {fileID: 11400000, guid: a8643f833a7b5f14fa25e5079893767c, type: 2}

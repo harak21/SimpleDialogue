@@ -16,7 +16,39 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 07eb719e58de6674e8e372c324c6115a
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 9fc0d4010bbf28b4594072e72b8655ab
+    m_Address: MainScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 19b950c1335937a41b29789eff40fc4d
+    m_Address: MainHUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 975407added45764fb497ce97223e3a3
+    m_Address: SceneDataContainer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f002c90dcc2e1434f944ea185444cc63
+    m_Address: Character
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2d8e7c58c68df32498d5a2004c276e2c
+    m_Address: FirstScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 690b81abe0f8d184c9d384ed1c0545de
+    m_Address: SceneHud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a1bac64a261f6d049a06a5ad1c37303d
+    m_Address: DialogueContainersData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6904be367b3b3e84e8a60acb581a03b1
+    m_Address: SecondScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6492c9edc59e81649927298ab76140a5, type: 2}
   m_SchemaSet:
