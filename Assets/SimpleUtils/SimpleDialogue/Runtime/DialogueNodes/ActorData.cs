@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.Localization.Tables;
 
 namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
 {
@@ -8,6 +7,6 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
     internal class ActorData
     {
         public int actorID;
-        public List<SharedTableData> tables = new ();
+        public List<string> tables = new ();
     }
 }

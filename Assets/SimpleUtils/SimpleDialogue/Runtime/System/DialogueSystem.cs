@@ -5,8 +5,8 @@ using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
 using SimpleUtils.SimpleDialogue.Runtime.System.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.System.Data;
+using SimpleUtils.SimpleDialogue.Runtime.System.Localization;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 
 namespace SimpleUtils.SimpleDialogue.Runtime.System
 {
@@ -18,7 +18,7 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
         public event Action<DialogueEvent> OnEventOccurred;
         
         private readonly IDialogueConditionHandler _dialogueConditionHandler;
-        private readonly LocalizedStringDatabase _stringDatabase;
+        private readonly ILocalizationWrapper _localizationWrapper;
         private readonly ILoadDialogueService _loadDialogueService;
         
         private IDialogueContainer _currentDialogueContainer;
@@ -29,7 +29,9 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
         /// constructor that accepts the dialog download service
         /// </summary>
         /// <param name="loadDialogueService">dialog loading service</param>
-        public DialogueSystem(ILoadDialogueService loadDialogueService) : this(loadDialogueService, new DummyDialogConditionHandler())
+        /// <param name="localizationWrapper"></param>
+        public DialogueSystem(ILoadDialogueService loadDialogueService, ILocalizationWrapper localizationWrapper) 
+            : this(loadDialogueService, new DummyDialogConditionHandler(), localizationWrapper)
         {
         }
 
@@ -39,11 +41,14 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
         /// </summary>
         /// <param name="loadDialogueService">dialog loading service</param>
         /// <param name="dialogueConditionHandler">stores the current values of the conditions</param>
-        public DialogueSystem(ILoadDialogueService loadDialogueService, IDialogueConditionHandler dialogueConditionHandler)
+        /// <param name="localizationWrapper"></param>
+        public DialogueSystem(ILoadDialogueService loadDialogueService, 
+            IDialogueConditionHandler dialogueConditionHandler,
+            ILocalizationWrapper localizationWrapper)
         {
             _dialogueConditionHandler = dialogueConditionHandler;
+            _localizationWrapper = localizationWrapper;
             _loadDialogueService = loadDialogueService;
-            _stringDatabase = LocalizationSettings.Instance.GetStringDatabase();
         }
 
         /// <summary>
@@ -101,8 +106,8 @@ namespace SimpleUtils.SimpleDialogue.Runtime.System
 
         private Phrase FillPhraseData(DialoguePhraseNode dialoguePhraseNode)
         {
-            var localizedPhrase = _stringDatabase.GetLocalizedString(
-                new Guid(dialoguePhraseNode.TableKey), dialoguePhraseNode.EntryKey);
+            var localizedPhrase = _localizationWrapper.GetLocalizedString(
+                dialoguePhraseNode.TableKey, dialoguePhraseNode.EntryKey);
             _currentDialogueContainer.Actors.TryGetValue(dialoguePhraseNode.ActorID, out var actor);
             return new Phrase(dialoguePhraseNode.ID,
                 dialoguePhraseNode.TableKey,

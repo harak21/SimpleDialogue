@@ -6,9 +6,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.Utils
 {
     internal class DraggableListItem : VisualElement
     {
-        public event Action<long, Guid, Vector2> OnNodeCreate;
+        public event Action<long, string, Vector2> OnNodeCreate;
 
-        private Guid _guidKey;
+        private string _guidKey;
         private long _longKey;
 
         public DraggableListItem(VisualTreeAsset template)
@@ -19,7 +19,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.Utils
             this.AddManipulator(dragManipulator);
         }
 
-        public void Bind(long longKey, Guid guidKey, string title)
+        public void Bind(long longKey, string guidKey, string title)
         {
             _guidKey = guidKey;
             _longKey = longKey;

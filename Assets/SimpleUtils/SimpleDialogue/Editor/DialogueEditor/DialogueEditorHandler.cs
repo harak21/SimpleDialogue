@@ -5,6 +5,7 @@ using SimpleUtils.SimpleDialogue.Editor.Conditions;
 using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings;
 using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab;
 using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Graph;
+using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Localization;
 using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
@@ -12,9 +13,7 @@ using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.Localization;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 
 namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
@@ -25,6 +24,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         private readonly TemplateContainer _rootView;
         private readonly DialogueContainer _dialogueContainer;
         private readonly GlobalValues _globalConditionValues;
+        private IEditorLocalization _editorLocalization;
 
         private DialogueGraph _graph;
         private PhrasesListHandler _npcListHandler;
@@ -44,7 +44,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             _rootView = rootView;
             _dialogueContainer = dialogueContainer;
             _globalConditionValues = AssetProvider.FindSingleAsset<GlobalValues>();
-
+            
+            CreateLocalizationWrapper();
+            
             CreateGlobalConditionsTab();
             CreateLocalConditionsTab();
             CreateActorsSettingsTab();
@@ -61,6 +63,30 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             AddShortcuts();
             
             Undo.undoRedoPerformed += UndoRedoPerformed;
+        }
+
+        private void CreateLocalizationWrapper()
+        {
+            
+#if USE_UNITY_LOCALIZATION
+            _editorLocalization = new EditorLocalization();
+            return;
+#else
+            var types = TypeCache.GetTypesDerivedFrom<IEditorLocalization>();
+            var selectedType = types[0];
+            if (types.Count > 1)
+            {
+                foreach (var type in types)
+                {
+                    if (type != typeof(DummyEditorLocalization))
+                    {
+                        selectedType = type;
+                    }
+                }
+            }
+
+            _editorLocalization = (IEditorLocalization)Activator.CreateInstance(selectedType);
+#endif
         }
 
         private void UndoRedoPerformed()
@@ -141,7 +167,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
 
         private void CreateActorsSettingsTab()
         {
-            _actorsSettingsTab = new ActorsSettingsTab(_rootView, _dialogueContainer, _currentWindow.name);
+            _actorsSettingsTab = new ActorsSettingsTab(_rootView, _dialogueContainer, _editorLocalization, _currentWindow.name);
             _actorsSettingsTab.OnNewActorViewCreate += CreateActorView;
             _actorsSettingsTab.OnViewSelected += ViewSelected;
             _actorsSettingsTab.OnTabViewsChanged += UpdateTabs;
@@ -154,7 +180,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
 
         private void CreateActorView(Actor actor, ActorData actorData)
         {
-            var actorView = new ActorPhrasesTabView(_rootView, actor, actorData, _currentWindow.name);
+            var actorView = new ActorPhrasesTabView(_rootView, _editorLocalization, actor, actorData, _currentWindow.name);
             actorView.OnNodeCreate += CreatePhraseNode;
             actorView.OnViewSelected += ViewSelected;
             _tabViews.Add(actorView);
@@ -184,13 +210,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
             }
         }
 
-        private void CreatePhraseNode(SharedTableData.SharedTableEntry entry, Vector2 pos, Guid tableKey, Actor actor)
+        private void CreatePhraseNode(long entryKey, Vector2 pos, string tableKey, Actor actor)
         {
             var id = Guid.NewGuid().GetHashCode();
-            var node = new DialoguePhraseNode(id, entry.Id, tableKey, actor);
+            var node = new DialoguePhraseNode(id, entryKey, tableKey, actor);
             _dialogueContainer.AddNode(node);
             _dialogueContainer.NodeData.Add(new DialogueNodeData() { nodeID = id, position = pos });
-            _graph.AddPhraseNode(entry.Key, pos, node, actor, true);
+            _graph.AddPhraseNode(_editorLocalization.GetTableEntryTitle(entryKey, tableKey), pos, node, actor, true);
 
             Save();
         }
@@ -221,19 +247,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor
         {
             foreach (var node in _dialogueContainer.PhrasesList)
             {
-                var stringTableCollection = LocalizationEditorSettings.GetStringTableCollection(new Guid(node.TableKey));
-                var sharedTableEntry = stringTableCollection.SharedData.GetEntry(node.EntryKey);
-                if (sharedTableEntry is null)
-                {
-                    Debug.LogWarning($"no row found in localization tables for node [{node.ID}]");
-                    continue;
-                }
-
                 var position = _dialogueContainer.NodeData.Find(
                     d => d.nodeID == node.ID).position;
 
                 var actor = _dialogueContainer.Actors[node.ActorID];
-                _graph.AddPhraseNode(sharedTableEntry.Key, position, node, actor, false);
+                _graph.AddPhraseNode(_editorLocalization.GetTableEntryTitle(node.EntryKey, node.TableKey), position, node, actor, false);
             }
 
             foreach (var conditionNode in _dialogueContainer.ConditionsList)

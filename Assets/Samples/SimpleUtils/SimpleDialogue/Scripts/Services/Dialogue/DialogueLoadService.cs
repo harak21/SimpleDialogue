@@ -4,7 +4,7 @@ using Samples.SimpleUtils.SimpleDialogue.Scripts.Services.ResourcesLoader;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.System;
 
-namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue
+namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services
 {
     internal class DialogueLoadService : ILoadDialogueService
     {

@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Samples.SimpleUtils.SimpleDialogue.Scripts.Scenario;
+using Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue;
 using Samples.SimpleUtils.SimpleDialogue.Scripts.Services.ResourcesLoader;
 using Samples.SimpleUtils.SimpleDialogue.Scripts.UI;
 using SimpleUtils.SimpleDialogue.Runtime.Components;
 using SimpleUtils.SimpleDialogue.Runtime.System;
 using SimpleUtils.SimpleDialogue.Runtime.System.Conditions;
 using SimpleUtils.SimpleDialogue.Runtime.System.Data;
+using SimpleUtils.SimpleDialogue.Runtime.System.Localization;
+#if USE_UNITY_LOCALIZATION
+using SimpleUtils.SimpleDialogue.Runtime.System.Localization.UnityLocalization;
+#endif
 
-namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue
+namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services
 {
     internal class DialogueSystemWrapper : IDialogueSystemWrapper
     {
@@ -24,8 +29,14 @@ namespace Samples.SimpleUtils.SimpleDialogue.Scripts.Services.Dialogue
         public DialogueSystemWrapper(ILoadResources loadResources)
         {
             var dialogueLoadService = new DialogueLoadService(loadResources);
+            var localizationWrapper =
+#if USE_UNITY_LOCALIZATION
+                new LocalizationWrapper();
+#else
+                new DummyLocalizationWrapper();
+#endif
             _dialogConditionHandler = new DialogueConditionHandler(new JsonConditionSaveLoadService());
-            _dialogueSystem = new DialogueSystem(dialogueLoadService, _dialogConditionHandler);
+            _dialogueSystem = new DialogueSystem(dialogueLoadService, _dialogConditionHandler, localizationWrapper);
 #pragma warning disable CS4014 
             _dialogConditionHandler.Initialize();
 #pragma warning restore CS4014 

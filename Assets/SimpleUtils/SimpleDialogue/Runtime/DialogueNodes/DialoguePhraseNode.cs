@@ -45,12 +45,12 @@ namespace SimpleUtils.SimpleDialogue.Runtime.DialogueNodes
             set => tableKey = value;
         }
 
-        public DialoguePhraseNode(int id, long entryKey, Guid tableKey, Actor actor)
+        public DialoguePhraseNode(int id, long entryKey, string tableKey, Actor actor)
         {
             ID = id;
             EntryKey = entryKey;
             ActorID = actor.ID;
-            TableKey = tableKey.ToString();
+            TableKey = tableKey;
         }
 
         public void AddNextNode(int nextNodeID) 

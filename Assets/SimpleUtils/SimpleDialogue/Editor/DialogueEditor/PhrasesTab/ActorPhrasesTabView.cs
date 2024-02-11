@@ -1,8 +1,8 @@
 ﻿using System;
+using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Localization;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 
 namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
@@ -10,12 +10,13 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
     internal class ActorPhrasesTabView : IDialogueEditorTabView
     {
         public event Action<ITabView> OnViewSelected;
-        public event Action<SharedTableData.SharedTableEntry, Vector2, Guid, Actor> OnNodeCreate;
+        public event Action<long, Vector2, string, Actor> OnNodeCreate;
 
         private string TabTitle { get; }
         public bool IsShowed { get; private set; }
 
         private readonly TemplateContainer _root;
+        private readonly IEditorLocalization _editorLocalization;
         private readonly Actor _actor;
         private readonly ActorData _actorData;
         private readonly string _dataKey;
@@ -24,9 +25,14 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
         private Label _tabLabel;
 
 
-        public ActorPhrasesTabView(TemplateContainer root, Actor actor, ActorData actorData, string dataKey)
+        public ActorPhrasesTabView(TemplateContainer root, 
+            IEditorLocalization editorLocalization,
+            Actor actor, 
+            ActorData actorData, 
+            string dataKey)
         {
             _root = root;
+            _editorLocalization = editorLocalization;
             _actor = actor;
             _actorData = actorData;
             _dataKey = $"SimpleDialogGraph{dataKey}{actor.ActorName}";
@@ -78,6 +84,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.PhrasesTab
             _phrasesListHandler = new PhrasesListHandler(
                 itemViewTemplate,
                 list,
+                _editorLocalization,
                 _actorData,
                 _dataKey);
             

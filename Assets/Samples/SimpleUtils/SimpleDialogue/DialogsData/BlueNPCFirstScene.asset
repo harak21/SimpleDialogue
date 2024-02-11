@@ -126,7 +126,7 @@ MonoBehaviour:
   actorsData:
   - actorID: 591404628
     tables:
-    - {fileID: 11400000, guid: 7d6248f52f7662d4e8ee6490ab2c4101, type: 2}
+    - 7d6248f5-2f76-62d4-e8ee-6490ab2c4101
   - actorID: 1864967561
     tables:
-    - {fileID: 11400000, guid: a8643f833a7b5f14fa25e5079893767c, type: 2}
+    - a8643f83-3a7b-5f14-fa25-e5079893767c

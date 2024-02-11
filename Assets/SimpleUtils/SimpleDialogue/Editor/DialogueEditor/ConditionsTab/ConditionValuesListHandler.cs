@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Conditions;
-using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -64,11 +63,11 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ConditionsTab
         private void BindItem(VisualElement e, int i)
         {
             ((DraggableListItem)e).Bind(_conditionValues[i].ID,
-                Guid.Empty,
+                string.Empty, 
                 _conditionValues[i].Description);
         }
         
-        private void NodeCreate(long longKey, Guid guidKey, Vector2 position)
+        private void NodeCreate(long longKey, string guidKey, Vector2 position)
         {
             var condition = _conditionValues.Find(n => n.ID == longKey);
             if (condition is null)

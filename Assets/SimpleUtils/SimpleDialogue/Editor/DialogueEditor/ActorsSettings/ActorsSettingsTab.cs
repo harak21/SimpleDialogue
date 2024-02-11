@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using SimpleUtils.SimpleDialogue.Editor.DialogueEditor.Localization;
 using SimpleUtils.SimpleDialogue.Editor.Utils;
 using SimpleUtils.SimpleDialogue.Runtime.Containers;
 using SimpleUtils.SimpleDialogue.Runtime.DialogueNodes;
-using UnityEditor.Localization;
 using UnityEditor.UIElements;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 
 namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
@@ -22,16 +20,21 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
         private readonly DialogueContainer _dialogueContainer;
         private readonly string _dataKey;
         private readonly VisualElement _actorsMenu;
+        private readonly IEditorLocalization _editorLocalization;
         private bool _isActorMenuShowed;
         private ListView _actorList;
 
-        public ActorsSettingsTab(TemplateContainer root, DialogueContainer dialogueContainer, string dataKey)
+        public ActorsSettingsTab(TemplateContainer root, 
+            DialogueContainer dialogueContainer, 
+            IEditorLocalization editorLocalization,
+            string dataKey)
         {
             _root = root;
             _dialogueContainer = dialogueContainer;
             _dataKey = dataKey;
             _actorsMenu = root.Q<VisualElement>("actorsMenu");
             _actorsMenu.AddToClassList("actorsMenu--hidden");
+            _editorLocalization = editorLocalization;
             
             CreateActorList(dialogueContainer);
 
@@ -115,7 +118,6 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
         
         void BindItem(VisualElement e, int i)
         {
-            var stringTableCollection = LocalizationEditorSettings.GetStringTableCollections();
             var textField = (e).Q<TextField>();
             textField.SetValueWithoutNotify(_dialogueContainer.ActorsList[i].ActorName);
             textField.RegisterValueChangedCallback(evt =>
@@ -125,15 +127,15 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             });
             
             var mask = e.Q<MaskField>();
-            var choices = stringTableCollection.Select(t => t.SharedData.TableCollectionName).ToList();
+            var choices = _editorLocalization.GetTablesName();
             mask.choices = choices;
             mask.SetValueWithoutNotify(StringsToIntMask(choices, 
-                _dialogueContainer.ActorsData[i].tables.Select(t => t.TableCollectionName).ToList()));
+                _editorLocalization.GetTablesName(_dialogueContainer.ActorsData[i].tables)));
             mask.RegisterValueChangedCallback(evt =>
             {
-                var tables = IntMaskToListSharedData(
+                var tables = IntMaskToListTables(
                     evt.newValue, 
-                    stringTableCollection.Select(t=> t.SharedData).ToList());
+                    choices);
                 
                 _dialogueContainer.ActorsData[i].tables = tables;
                 OnTabViewsChanged?.Invoke();
@@ -163,9 +165,9 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             return num;
         }
 
-        private List<SharedTableData> IntMaskToListSharedData(int value, List<SharedTableData> baseList)
+        private List<string> IntMaskToListTables(int value, List<string> baseList)
         {
-            var list = new List<SharedTableData>();
+            var list = new List<string>();
             if (value == -1)
             {
                 return baseList;
@@ -179,7 +181,7 @@ namespace SimpleUtils.SimpleDialogue.Editor.DialogueEditor.ActorsSettings
             {
                 if ((1 << i & value) != 0)
                 {
-                    list.Add(baseList[i]);
+                    list.Add(_editorLocalization.GetTableId(baseList[i]));
                 }
             }
 
